@@ -102,7 +102,7 @@ function Header() {
         onStateChange={handleStateChange}
         customBurgerIcon={false}
         customCrossIcon={false}
-        width={'490px'}
+        width={'300px'}
         styles={{
           bmOverlay: {
             background: 'rgba(4, 17, 22, 0.6)',
