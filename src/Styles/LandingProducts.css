@@ -1,0 +1,425 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* SF Pro Display font face - Add your font files here if available */
+@font-face {
+  font-family: 'SF Pro Display';
+  src: local('SF Pro Display'), local('SFProDisplay-Regular');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'SF Pro Display';
+  src: local('SF Pro Display'), local('SFProDisplay-Medium');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'SF Pro Display';
+  src: local('SF Pro Display'), local('SFProDisplay-Semibold');
+  font-weight: 600;
+  font-style: normal;
+}
+
+:root {
+  --noise-texture: none;
+  --font-stack: "SF Pro Display", "SF Pro Icons", -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  --sk-body-link-color: rgb(0, 102, 204);
+}
+
+.products-container {
+  width: 100%;
+  min-height: 100vh;
+  padding: 80px 0;
+  background-color: #fff;
+  position: relative;
+}
+
+.products-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 60px;
+}
+
+/* Loading State */
+.loading-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 2px solid rgba(17, 77, 100, 0.1);
+  border-top-color: #114D64;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Products Grid */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  max-width: 1260px;
+  margin: 0 auto;
+}
+
+/* Product Card */
+.product-card {
+  position: relative;
+  background: #ffffff;
+  border-radius: 18px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-card:hover {
+  transform: scale(1.02);
+}
+
+/* Image Container */
+.product-image-container {
+  width: 100%;
+  height: 366px;
+  position: relative;
+  background: #fbfbfd;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: 1.6rem;
+}
+
+.product-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.product-card:hover .product-img {
+  transform: scale(1.05);
+}
+
+/* Product Info */
+.product-info {
+  padding: 20px 24px 28px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #ffffff;
+  border-radius: 0 0 18px 18px;
+}
+
+.product-name {
+  font-family: var(--font-stack);
+  font-size: 21px;
+  font-weight: 600;
+  color: #000000;
+  margin: 0 0 4px 0;
+  letter-spacing: 0.011em;
+  line-height: 1.19048;
+}
+
+.product-price {
+  font-family: var(--font-stack);
+  font-size: 17px;
+  font-weight: 400;
+  color: #000000;
+  margin: 0 0 16px 0;
+  letter-spacing: -0.022em;
+}
+
+.product-description {
+  font-family: var(--font-stack);
+  font-size: 14px;
+  font-weight: 400;
+  color: #6e6e73;
+  margin: 0 0 8px 0;
+  letter-spacing: -0.016em;
+  line-height: 1.42859;
+}
+
+/* Product Actions */
+.product-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+/* Add to Cart Button - Apple Style (Primary Blue) - SMALLER */
+.add-to-cart-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-stack);
+  font-size: 14px;
+  font-weight: 400;
+  color: #ffffff;
+  background: rgb(0, 113, 227);
+  border: none;
+  border-radius: 980px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  letter-spacing: -0.022em;
+  white-space: nowrap;
+  text-decoration: none;
+  line-height: 1.2;
+  height: 32px;
+  width: fit-content;
+}
+
+.add-to-cart-btn:hover {
+  background: #0076DF;
+}
+
+.add-to-cart-btn:active {
+  background: #006EDB;
+}
+
+/* Details Link - Apple Style (Link with Arrow) - SMALLER */
+.details-btn.icon-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-family: var(--font-stack);
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--sk-body-link-color);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  letter-spacing: -0.022em;
+  white-space: nowrap;
+  text-decoration: none;
+  line-height: 1.2;
+  height: 32px;
+  width: fit-content;
+  padding: 0;
+}
+
+.details-btn.icon-wrapper:hover {
+  color: #0058b3;
+  text-decoration: underline;
+}
+
+.details-btn .icon-copy {
+  display: inline;
+}
+
+/* Apple Chevron Arrow - SMALLER */
+.details-btn .icon.icon-after.more {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-left: 1px;
+  position: relative;
+}
+
+.details-btn .icon.icon-after.more::before {
+  content: '';
+  display: block;
+  width: 5px;
+  height: 5px;
+  border-right: 1.5px solid currentColor;
+  border-top: 1.5px solid currentColor;
+  transform: rotate(45deg);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -3px;
+  margin-left: -3px;
+}
+
+/* Responsive Design */
+@media (max-width: 1400px) {
+  .products-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .products-content {
+    padding: 0 48px;
+  }
+
+  .products-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .product-image-container {
+    height: 300px;
+  }
+}
+
+@media (max-width: 900px) {
+  .products-container {
+    padding: 60px 0;
+  }
+
+  .products-content {
+    padding: 0 32px;
+  }
+
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+
+  .product-image-container {
+    height: 260px;
+  }
+
+  .product-info {
+    padding: 16px 20px 24px;
+  }
+
+  .product-name {
+    font-size: 19px;
+  }
+
+  .product-price {
+    font-size: 15px;
+    margin-bottom: 14px;
+  }
+
+  .add-to-cart-btn {
+    font-size: 13px;
+    padding: 7px 14px;
+    height: 30px;
+  }
+
+  .details-btn.icon-wrapper {
+    font-size: 13px;
+    height: 30px;
+  }
+
+  .details-btn .icon.icon-after.more {
+    width: 7px;
+    height: 7px;
+  }
+
+  .details-btn .icon.icon-after.more::before {
+    width: 4px;
+    height: 4px;
+  }
+}
+
+@media (max-width: 640px) {
+  .products-container {
+    padding: 40px 0;
+  }
+
+  .products-content {
+    padding: 0 20px;
+  }
+
+  .products-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .product-card {
+    border-radius: 18px;
+  }
+
+  .product-image-container {
+    height: 300px;
+  }
+
+  .product-info {
+    padding: 18px 20px 26px;
+  }
+
+  .product-name {
+    font-size: 21px;
+  }
+
+  .product-price {
+    font-size: 17px;
+    margin-bottom: 16px;
+  }
+
+  .product-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .add-to-cart-btn {
+    font-size: 15px;
+    padding: 10px 18px;
+    height: 36px;
+    width: 100%;
+  }
+
+  .details-btn.icon-wrapper {
+    font-size: 15px;
+    height: 36px;
+  }
+}
+
+@media (max-width: 400px) {
+  .products-content {
+    padding: 0 16px;
+  }
+
+  .product-image-container {
+    height: 240px;
+  }
+
+  .product-info {
+    padding: 16px 18px 24px;
+  }
+
+  .product-name {
+    font-size: 19px;
+  }
+
+  .product-price {
+    font-size: 15px;
+    margin-bottom: 14px;
+  }
+
+  .add-to-cart-btn {
+    font-size: 14px;
+    padding: 8px 16px;
+    height: 32px;
+  }
+
+  .details-btn.icon-wrapper {
+    font-size: 14px;
+    height: 32px;
+  }
+}
+
+/* Smooth animations */
+@media (prefers-reduced-motion: reduce) {
+  .product-card,
+  .product-img,
+  .details-btn,
+  .add-to-cart-btn,
+  .product-name {
+    transition: none;
+  }
+}

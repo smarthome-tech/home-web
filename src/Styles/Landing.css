@@ -1,0 +1,393 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+.landing-container {
+  width: 100%;
+  height: 70vh;
+  min-height: 500px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: #D3D3D3;
+}
+
+.landing-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to right,
+    rgba(4, 17, 22, 0.608) 0%,
+    rgba(4, 17, 22, 0.258) 50%,
+    rgba(4, 17, 22, 0.198) 100%
+  );
+  z-index: 1;
+}
+
+.landing-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: var(--noise-bg);
+  background-repeat: repeat;
+  opacity: 0.5;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.landing-content {
+  max-width: 1600px;
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 72px;
+  position: relative;
+  z-index: 3;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.landing-text {
+  max-width: 600px;
+  align-self: center;
+}
+
+.landing-image-right {
+  position: relative;
+  align-self: flex-end;
+  margin: 0;
+  padding: 0;
+  line-height: 0;
+}
+
+.transparent-image {
+  height: 500px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+  margin: 0;
+  padding: 0;
+  vertical-align: bottom;
+}
+
+.landing-title {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+  font-size: 54px;
+  font-weight: 500;
+  color: #ffffff;
+  line-height: 1.1;
+  margin-bottom: 24px;
+  letter-spacing: -1px;
+}
+
+.landing-description {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.6;
+  margin-bottom: 40px;
+}
+
+/* Apple-Style Buttons Container */
+.landing-buttons {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* Apple Button Base Styles */
+.apple-button {
+  font-family: "SF Pro Text", "SF Pro Icons", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  font-size: 17px;
+  line-height: 1.1764805882;
+  font-weight: 400;
+  letter-spacing: -0.022em;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 980px;
+  padding: 11px 21px;
+  min-width: 70px;
+  cursor: pointer;
+  display: inline-block;
+  text-align: center;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  position: relative;
+  z-index: 4;
+}
+
+/* Primary Button (White with backdrop blur) */
+.apple-button-primary {
+  background: rgba(245, 245, 247, 0.95);
+  color: #000000;
+  border-color: transparent;
+  backdrop-filter: blur(20px) saturate(80%);
+  -webkit-backdrop-filter: blur(20px) saturate(80%);
+}
+
+.apple-button-primary:hover {
+  background: rgba(255, 255, 255, 1);
+  transform: scale(1.02);
+}
+
+.apple-button-primary:active {
+  background: rgba(237, 237, 242, 0.95);
+  transform: scale(0.98);
+}
+
+/* Secondary Button (Transparent with border and blur) */
+.apple-button-secondary {
+  background: transparent;
+  color: #F5F5F7;
+  border-color: rgba(245, 245, 247, 0.8);
+  backdrop-filter: blur(20px) saturate(80%);
+  -webkit-backdrop-filter: blur(20px) saturate(80%);
+}
+
+.apple-button-secondary:hover {
+  background: rgba(245, 245, 247, 0.1);
+  border-color: rgba(245, 245, 247, 1);
+  transform: scale(1.02);
+}
+
+.apple-button-secondary:active {
+  background: rgba(245, 245, 247, 0.05);
+  transform: scale(0.98);
+}
+
+/* Tablet */
+@media (max-width: 1200px) {
+  .landing-content {
+    padding: 0 48px;
+  }
+  
+  .landing-title {
+    font-size: 48px;
+  }
+  
+  .landing-description {
+    font-size: 17px;
+  }
+  
+  .transparent-image {
+    height: 400px;
+  }
+}
+
+/* Mobile Landscape & Tablet Portrait */
+@media (max-width: 900px) {
+  .landing-container {
+    height: auto;
+    min-height: 500px;
+    padding: 60px 0;
+  }
+  
+  .landing-content {
+    padding: 0 40px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+  }
+  
+  .landing-text {
+    max-width: 100%;
+    text-align: center;
+  }
+  
+  .landing-title {
+    font-size: 44px;
+    margin-bottom: 20px;
+  }
+  
+  .landing-description {
+    font-size: 16px;
+    margin-bottom: 32px;
+  }
+  
+  .landing-description br {
+    display: none;
+  }
+  
+  .landing-buttons {
+    justify-content: center;
+  }
+  
+  .landing-image-right {
+    align-self: center;
+    margin-top: 20px;
+  }
+  
+  .transparent-image {
+    height: 320px;
+  }
+}
+
+/* Mobile Portrait */
+@media (max-width: 768px) {
+  .landing-container {
+    min-height: 600px;
+    padding: 40px 0;
+  }
+  
+  .landing-content {
+    padding: 0 32px;
+    gap: 32px;
+  }
+  
+  .landing-title {
+    font-size: 38px;
+    letter-spacing: -0.5px;
+  }
+  
+  .landing-description {
+    font-size: 15px;
+    margin-bottom: 28px;
+  }
+  
+  .landing-buttons {
+    gap: 12px;
+    width: 100%;
+  }
+  
+  .apple-button {
+    font-size: 16px;
+    padding: 12px 24px;
+    flex: 1;
+    min-width: 140px;
+  }
+  
+  .transparent-image {
+    height: 280px;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  .landing-container {
+    min-height: auto;
+    padding: 32px 0;
+  }
+  
+  .landing-content {
+    padding: 0 24px;
+    gap: 28px;
+  }
+  
+  .landing-title {
+    font-size: 32px;
+    margin-bottom: 16px;
+    letter-spacing: -0.3px;
+  }
+  
+  .landing-title br {
+    display: none;
+  }
+  
+  .landing-description {
+    font-size: 14px;
+    margin-bottom: 24px;
+    line-height: 1.5;
+  }
+  
+  .landing-buttons {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .apple-button {
+    width: 100%;
+    font-size: 15px;
+    padding: 14px 28px;
+  }
+  
+  .transparent-image {
+    height: 240px;
+  }
+}
+
+/* Extra Small Mobile (iPhone SE, etc.) */
+@media (max-width: 375px) {
+  .landing-container {
+    padding: 24px 0;
+  }
+  
+  .landing-content {
+    padding: 0 20px;
+    gap: 24px;
+  }
+  
+  .landing-title {
+    font-size: 28px;
+    margin-bottom: 12px;
+  }
+  
+  .landing-description {
+    font-size: 13px;
+    margin-bottom: 20px;
+  }
+  
+  .apple-button {
+    font-size: 14px;
+    padding: 12px 24px;
+  }
+  
+  .transparent-image {
+    height: 200px;
+  }
+}
+
+/* Landscape orientation on mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+  .landing-container {
+    min-height: 100vh;
+    padding: 20px 0;
+  }
+  
+  .landing-content {
+    flex-direction: row;
+    gap: 40px;
+    padding: 0 40px;
+  }
+  
+  .landing-text {
+    text-align: left;
+    max-width: 50%;
+  }
+  
+  .landing-title {
+    font-size: 28px;
+    margin-bottom: 12px;
+  }
+  
+  .landing-description {
+    font-size: 13px;
+    margin-bottom: 16px;
+  }
+  
+  .landing-buttons {
+    gap: 8px;
+  }
+  
+  .apple-button {
+    font-size: 13px;
+    padding: 8px 16px;
+  }
+  
+  .landing-image-right {
+    display: block;
+  }
+  
+  .transparent-image {
+    height: 280px;
+  }
+}
