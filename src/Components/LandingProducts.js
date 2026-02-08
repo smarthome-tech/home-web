@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Filter from './Filter';
 import '../Styles/LandingProducts.css';
 
 function LandingProducts() {
   const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState('all');
   const navigate = useNavigate();
   
   const API_BASE_URL = "https://home-back-3lqs.onrender.com";
@@ -14,10 +17,13 @@ function LandingProducts() {
       try {
         const res = await fetch(`${API_BASE_URL}/products`);
         const data = await res.json();
-        setProducts(data.products || []);
+        const productList = data.products || [];
+        setProducts(productList);
+        setFilteredProducts(productList);
       } catch (err) {
         console.error("Error loading products:", err);
         setProducts([]);
+        setFilteredProducts([]);
       } finally {
         setLoading(false);
       }
@@ -53,6 +59,20 @@ function LandingProducts() {
     generateNoise();
   }, []);
 
+  // Handle filter changes
+  const handleFilterChange = (category) => {
+    setSelectedCategory(category);
+    
+    if (category === 'all') {
+      setFilteredProducts(products);
+    } else {
+      const filtered = products.filter(
+        product => product.classifications === category
+      );
+      setFilteredProducts(filtered);
+    }
+  };
+
   // Helper function to truncate description
   const truncateDescription = (text, maxLength = 60) => {
     if (!text) return '';
@@ -81,61 +101,76 @@ function LandingProducts() {
   }
 
   return (
-    <div className="products-container">
-      <div className="products-content">
-        <div className="products-grid">
-          {products.map((product) => (
-            <div 
-              key={product._id} 
-              className="product-card"
-              onClick={() => handleViewDetails(product._id)}
-            >
-              <div className="card-noise-overlay"></div>
-              
-              <div className="product-image-container">
-                {product.mainImage && (
-                  <img
-                    src={product.mainImage}
-                    alt={product.name}
-                    className="product-img"
-                    loading="lazy"
-                  />
-                )}
-              </div>
+    <>
+      {/* Filter Component */}
+      <Filter 
+        products={products} 
+        onFilterChange={handleFilterChange}
+      />
 
-              <div className="product-info">
-                <h3 className="product-name">{product.name}</h3>
+      <div className="products-container">
+        <div className="products-content">
+          {/* Show message if no products match filter */}
+          {filteredProducts.length === 0 && !loading && (
+            <div className="empty-state">
+              <p className="empty-text">პროდუქტი არ მოიძებნა ამ კატეგორიაში</p>
+            </div>
+          )}
+
+          <div className="products-grid">
+            {filteredProducts.map((product) => (
+              <div 
+                key={product._id} 
+                className="product-card"
+                onClick={() => handleViewDetails(product._id)}
+              >
+                <div className="card-noise-overlay"></div>
                 
-                {product.description && (
-                  <p className="product-description">
-                    {truncateDescription(product.description, 60)}
-                  </p>
-                )}
-                
-                <p className="product-price">₾{product.price?.toFixed(2)}</p>
-                
-                <div className="product-actions">
-                  <button 
-                    className="add-to-cart-btn"
-                    onClick={(e) => handleAddToCart(e, product)}
-                  >
-                    <span className="btn-text">კალათაში დამატება</span>
-                  </button>
+                <div className="product-image-container">
+                  {product.mainImage && (
+                    <img
+                      src={product.mainImage}
+                      alt={product.name}
+                      className="product-img"
+                      loading="lazy"
+                    />
+                  )}
+                </div>
+
+                <div className="product-info">
+                  <h3 className="product-name">{product.name}</h3>
                   
-                  <button 
-                    className="details-btn icon-wrapper"
-                    onClick={() => handleViewDetails(product._id)}
-                  >
-                    <span className="icon-copy">დეტალურად</span>
-                    <span className="icon icon-after more" aria-hidden="true"></span>
-                  </button>
+                  {product.description && (
+                    <p className="product-description">
+                      {truncateDescription(product.description, 60)}
+                    </p>
+                  )}
+                  
+                  <p className="product-price">₾{product.price?.toFixed(2)}</p>
+                  
+                  <div className="product-actions">
+                    <button 
+                      className="add-to-cart-btn"
+                      onClick={(e) => handleAddToCart(e, product)}
+                    >
+                      <span className="btn-text">კალათაში დამატება</span>
+                    </button>
+                    
+                    <button 
+                      className="details-btn icon-wrapper"
+                      onClick={() => handleViewDetails(product._id)}
+                    >
+                      <span className="icon-copy">დეტალურად</span>
+                      <span className="icon icon-after more" aria-hidden="true"></span>
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

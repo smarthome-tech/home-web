@@ -288,7 +288,7 @@
   }
 
   .product-image-container {
-    height: 260px;
+    height: 280px;
   }
 
   .product-info {
@@ -326,6 +326,7 @@
   }
 }
 
+/* MOBILE - BIGGER IMAGES */
 @media (max-width: 640px) {
   .products-container {
     padding: 40px 0;
@@ -345,7 +346,7 @@
   }
 
   .product-image-container {
-    height: 300px;
+    height: 450px;
   }
 
   .product-info {
@@ -385,7 +386,7 @@
   }
 
   .product-image-container {
-    height: 240px;
+    height: 380px;
   }
 
   .product-info {

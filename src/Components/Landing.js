@@ -37,7 +37,7 @@ function Landing() {
       <div className="landing-content">
         <div className="landing-text">
           <h1 className="landing-title">
-            ჭკვიანი სახლი<br />
+            ჭკვიანი სახლი <br />
             თქვენი კომფორტისთვის
           </h1>
           <p className="landing-description">
