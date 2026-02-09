@@ -17,7 +17,7 @@
 }
 
 .contact-content {
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 0 60px;
   width: 100%;
@@ -52,9 +52,9 @@
 /* Contact Info Grid */
 .contact-info-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 24px;
-  max-width: 900px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
@@ -66,6 +66,12 @@
   text-align: center;
   transition: all 0.3s ease;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  display: block;
+  text-decoration: none;
+}
+
+.contact-card.clickable {
+  cursor: pointer;
 }
 
 .contact-card:hover {
@@ -89,6 +95,12 @@
 .contact-icon svg {
   width: 28px;
   height: 28px;
+}
+
+.contact-icon-img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
 }
 
 /* Contact Card Title */
@@ -131,6 +143,17 @@
 }
 
 /* Responsive Design */
+@media (max-width: 1024px) {
+  .contact-content {
+    max-width: 900px;
+  }
+
+  .contact-info-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}
+
 @media (max-width: 900px) {
   .contact-container {
     padding: 100px 0 60px;
@@ -150,10 +173,6 @@
 
   .contact-subtitle {
     font-size: 19px;
-  }
-
-  .contact-info-grid {
-    gap: 20px;
   }
 
   .contact-card {
@@ -197,6 +216,11 @@
   }
 
   .contact-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .contact-icon-img {
     width: 24px;
     height: 24px;
   }

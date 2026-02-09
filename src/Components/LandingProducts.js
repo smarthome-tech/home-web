@@ -73,20 +73,12 @@ function LandingProducts() {
     }
   };
 
-  // Helper function to truncate description
-  const truncateDescription = (text, maxLength = 60) => {
-    if (!text) return '';
-    if (text.length <= maxLength) return text;
-    return text.substring(0, maxLength).trim() + '...';
-  };
-
   const handleViewDetails = (productId) => {
     navigate(`/product/${productId}`);
   };
 
   const handleAddToCart = (e, product) => {
-    e.stopPropagation(); // Prevent card click
-    // Add your cart logic here
+    e.stopPropagation();
     console.log('Add to cart:', product);
   };
 
@@ -139,12 +131,6 @@ function LandingProducts() {
 
                 <div className="product-info">
                   <h3 className="product-name">{product.name}</h3>
-                  
-                  {product.description && (
-                    <p className="product-description">
-                      {truncateDescription(product.description, 60)}
-                    </p>
-                  )}
                   
                   <p className="product-price">₾{product.price?.toFixed(2)}</p>
                   

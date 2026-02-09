@@ -438,6 +438,7 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+  
 }
 
 .sidebar-link {
@@ -450,6 +451,7 @@
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
   overflow: hidden;
+  margin-top: 25px;
 }
 
 .sidebar-link::before {
@@ -484,7 +486,7 @@
 
 .sidebar-link-text {
   font-family: 'Inter', sans-serif;
-  font-size: 16px;
+  font-size: 19px;
   font-weight: 500;
   color: #114D64;
   letter-spacing: -0.2px;
@@ -646,6 +648,6 @@
   }
 
   .sidebar-link-text {
-    font-size: 15px;
+    font-size: 18px;
   }
 }
