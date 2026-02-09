@@ -79,7 +79,42 @@ function LandingProducts() {
 
   const handleAddToCart = (e, product) => {
     e.stopPropagation();
-    console.log('Add to cart:', product);
+    
+    // Get existing basket from localStorage
+    const existingBasket = JSON.parse(localStorage.getItem('basket') || '[]');
+    
+    // Check if product already exists in basket
+    const existingProductIndex = existingBasket.findIndex(
+      item => item._id === product._id
+    );
+    
+    if (existingProductIndex !== -1) {
+      // If product exists, increase quantity
+      existingBasket[existingProductIndex].quantity = 
+        (existingBasket[existingProductIndex].quantity || 1) + 1;
+    } else {
+      // If product doesn't exist, add it with quantity 1
+      existingBasket.push({
+        ...product,
+        quantity: 1
+      });
+    }
+    
+    // Save updated basket to localStorage
+    localStorage.setItem('basket', JSON.stringify(existingBasket));
+    
+    // Dispatch custom event to update header basket count
+    const totalCount = existingBasket.reduce(
+      (total, item) => total + (item.quantity || 1), 
+      0
+    );
+    
+    window.dispatchEvent(new CustomEvent('basketUpdate', { 
+      detail: { count: totalCount } 
+    }));
+    
+    // Optional: Show a brief success message
+    console.log('Product added to basket:', product.name);
   };
 
   if (loading) {

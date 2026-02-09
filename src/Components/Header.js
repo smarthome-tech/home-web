@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { slide as Menu } from 'react-burger-menu'
@@ -7,6 +6,7 @@ import '../Styles/Header.css'
 function Header() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [basketCount, setBasketCount] = useState(0)
   const location = useLocation()
 
   useEffect(() => {
@@ -21,6 +21,27 @@ function Header() {
     // Close menu when route changes
     setMenuOpen(false)
   }, [location])
+
+  useEffect(() => {
+    // Listen for basket updates
+    const handleBasketUpdate = (event) => {
+      setBasketCount(event.detail.count)
+    }
+
+    window.addEventListener('basketUpdate', handleBasketUpdate)
+    
+    // Load basket count from localStorage on mount
+    const loadBasketCount = () => {
+      const basket = JSON.parse(localStorage.getItem('basket') || '[]')
+      setBasketCount(basket.reduce((total, item) => total + (item.quantity || 1), 0))
+    }
+    
+    loadBasketCount()
+
+    return () => {
+      window.removeEventListener('basketUpdate', handleBasketUpdate)
+    }
+  }, [])
 
   const handleStateChange = (state) => {
     setMenuOpen(state.isOpen)
@@ -73,6 +94,29 @@ function Header() {
 
           <div className="header-right">
             <div className="status-line"></div>
+            
+            {/* Basket Icon */}
+            <Link to="/basket" className="basket-link">
+              <div className="basket-icon-wrapper">
+                <svg 
+                  className="basket-icon" 
+                  viewBox="0 0 24 24" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  strokeWidth="2"
+                  strokeLinecap="round" 
+                  strokeLinejoin="round"
+                >
+                  <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+                  <line x1="3" y1="6" x2="21" y2="6"/>
+                  <path d="M16 10a4 4 0 0 1-8 0"/>
+                </svg>
+                {basketCount > 0 && (
+                  <span className="basket-count">{basketCount}</span>
+                )}
+              </div>
+            </Link>
+
             <div className="live-indicator">
               <span className="live-dot"></span>
             </div>
