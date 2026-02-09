@@ -8,6 +8,7 @@ import ProductDetails from './Components/ProductDetails';
 import Products from './Components/Products';
 import Contact from './Components/Contact';
 import Basket from './Components/Basket'; // ADD THIS
+import About from './Components/About';
 
 // Home page component
 function HomePage() {
@@ -39,6 +40,9 @@ function App() {
           
           {/* Basket page - ADD THIS */}
           <Route path="/basket" element={<Basket />} />
+
+          {/* About page - ADD THIS */}
+          <Route path="/about" element={<About />} />
         </Routes>
         <Footer />
       </div>

@@ -84,6 +84,13 @@ function Header() {
               <span className="nav-indicator"></span>
             </Link>
             <Link 
+              to="/about" 
+              className={`nav-link ${location.pathname === '/about' ? 'active' : ''}`}
+            >
+              <span className="nav-text">ჩვენს შესახებ</span>
+              <span className="nav-indicator"></span>
+            </Link>
+            <Link 
               to="/contact" 
               className={`nav-link ${location.pathname === '/contact' ? 'active' : ''}`}
             >
@@ -112,7 +119,7 @@ function Header() {
                   <path d="M16 10a4 4 0 0 1-8 0"/>
                 </svg>
                 {basketCount > 0 && (
-                  <span className="basket-count">{basketCount}</span>
+                  <span className="basket-count2">{basketCount}</span>
                 )}
               </div>
             </Link>
@@ -190,6 +197,14 @@ function Header() {
             onClick={closeMenu}
           >
             <span className="sidebar-link-text">პროდუქტები</span>
+            <span className="sidebar-link-arrow">→</span>
+          </Link>
+          <Link 
+            to="/about" 
+            className={`sidebar-link ${location.pathname === '/about' ? 'active' : ''}`}
+            onClick={closeMenu}
+          >
+            <span className="sidebar-link-text">ჩვენს შესახებ</span>
             <span className="sidebar-link-arrow">→</span>
           </Link>
           <Link 

@@ -689,13 +689,13 @@
   filter: drop-shadow(0 0 8px rgba(0, 145, 255, 0.373));
 }
 
-.basket-count {
+.basket-count2 {
   position: absolute;
   top: -4px;
   right: -4px;
   background: linear-gradient(135deg, #11688ab7, #3289ac86);
-  color: #dfebf0;
-  font-size: 11px;
+  color: #f4f4f4;
+  font-size: 15px;
   font-weight: 700;
   min-width: 18px;
   height: 18px;
@@ -704,18 +704,15 @@
   align-items: center;
   justify-content: center;
   padding: 2px;
-  box-shadow: 0 2px 8px rgba(0, 255, 255, 0.4);
   animation: basketPulse 2s ease-in-out infinite;
 }
 
 @keyframes basketPulse {
   0%, 100% {
     transform: scale(1);
-    box-shadow: 0 2px 8px rgba(0, 255, 255, 0.4);
   }
   50% {
     transform: scale(1.1);
-    box-shadow: 0 4px 12px rgba(0, 255, 255, 0.6);
   }
 }
 
@@ -735,8 +732,8 @@
     height: 22px;
   }
   
-  .basket-count {
-    font-size: 10px;
+  .basket-count2 {
+    font-size: 14px;
     min-width: 16px;
     height: 16px;
   }

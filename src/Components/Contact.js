@@ -9,7 +9,7 @@ function Contact() {
     <div className="contact-container">
       <div className="contact-content">
         <div className="contact-header">
-          <h1 className="contact-title">კონტაქტი</h1>
+          <h1 className="contact-title2">კონტაქტი</h1>
           <p className="contact-subtitle">დაგვიკავშირდით ნებისმიერ დროს</p>
         </div>
 

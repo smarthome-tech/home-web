@@ -26,7 +26,7 @@ function Footer() {
             <div className="footer-column">
               <h3 className="footer-column-title">კონტაქტი</h3>
               <div className="footer-contact">
-                <a href="tel:+995555802060" className="footer-link">555 80 20 60</a>
+                <a href="tel:+995555802060" className="footer-link">+995 555 80 20 60</a>
                 <p className="footer-text">თბილისი, ტარიელის ქუჩა 39</p>
               </div>
             </div>

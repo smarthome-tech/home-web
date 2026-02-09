@@ -29,7 +29,7 @@
   margin-bottom: 60px;
 }
 
-.contact-title {
+.contact-title2 {
   font-family: var(--font-stack);
   font-size: 56px;
   font-weight: 600;
@@ -167,7 +167,7 @@
     margin-bottom: 48px;
   }
 
-  .contact-title {
+  .contact-title2 {
     font-size: 48px;
   }
 
@@ -193,7 +193,7 @@
     margin-bottom: 40px;
   }
 
-  .contact-title {
+  .contact-title2 {
     font-size: 40px;
   }
 
@@ -236,7 +236,7 @@
 }
 
 @media (max-width: 400px) {
-  .contact-title {
+  .contact-title2 {
     font-size: 32px;
   }
 
