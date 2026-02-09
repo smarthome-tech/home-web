@@ -39,6 +39,46 @@ function ProductDetails() {
     fetchProduct();
   }, [id]);
 
+  const handleAddToCart = () => {
+    if (!product) return;
+    
+    // Get existing basket from localStorage
+    const existingBasket = JSON.parse(localStorage.getItem('basket') || '[]');
+    
+    // Check if product already exists in basket
+    const existingProductIndex = existingBasket.findIndex(
+      item => item._id === product._id
+    );
+    
+    if (existingProductIndex !== -1) {
+      // If product exists, increase quantity
+      existingBasket[existingProductIndex].quantity = 
+        (existingBasket[existingProductIndex].quantity || 1) + 1;
+    } else {
+      // If product doesn't exist, add it with quantity 1
+      existingBasket.push({
+        ...product,
+        quantity: 1
+      });
+    }
+    
+    // Save updated basket to localStorage
+    localStorage.setItem('basket', JSON.stringify(existingBasket));
+    
+    // Dispatch custom event to update header basket count
+    const totalCount = existingBasket.reduce(
+      (total, item) => total + (item.quantity || 1), 
+      0
+    );
+    
+    window.dispatchEvent(new CustomEvent('basketUpdate', { 
+      detail: { count: totalCount } 
+    }));
+    
+    // Optional: Show a brief success message
+    console.log('Product added to basket:', product.name);
+  };
+
   const handleWhatsAppOrder = () => {
     if (!product) return;
     const message = `გამარჯობა! მინდა შევუკვეთო: ${product.name} (₾${product.price})`;
@@ -168,6 +208,17 @@ function ProductDetails() {
 
             {/* Action Buttons */}
             <div className="action-buttons">
+              <button 
+                onClick={handleAddToCart}
+                className="order-btn add-to-cart-btn"
+                disabled={product.status === 'discontinued'}
+              >
+                <svg className="btn-icon" viewBox="0 0 24 24" fill="none">
+                  <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z" fill="currentColor"/>
+                </svg>
+                კალათაში დამატება
+              </button>
+
               <button 
                 onClick={handleWhatsAppOrder}
                 className="order-btn whatsapp-btn"
