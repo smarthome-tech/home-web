@@ -564,6 +564,7 @@
 
 /* Smooth animations */
 @media (prefers-reduced-motion: reduce) {
+
   .basket-item,
   .quantity-btn,
   .remove-btn,
@@ -571,4 +572,10 @@
   .continue-shopping-btn {
     transition: none;
   }
+}
+
+
+.form-order-btn {
+  border: 0.5px solid #474747;
+  color: black;
 }

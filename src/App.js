@@ -8,6 +8,7 @@ import Products from './Components/Products';
 import Contact from './Components/Contact';
 import Basket from './Components/Basket';
 import About from './Components/About';
+import Order from './Components/Order';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -61,6 +62,7 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/basket" element={<Basket />} />
           <Route path="/about" element={<About />} />
+          <Route path="/order" element={<Order />} />
         </Routes>
         <Footer />
       </div>
