@@ -7,8 +7,9 @@ import LandingProducts from './Components/LandingProducts';
 import ProductDetails from './Components/ProductDetails';
 import Products from './Components/Products';
 import Contact from './Components/Contact';
-import Basket from './Components/Basket'; // ADD THIS
+import Basket from './Components/Basket';
 import About from './Components/About';
+import Trust from './Components/Trust'; // ADD THIS
 
 // Home page component
 function HomePage() {
@@ -16,6 +17,7 @@ function HomePage() {
     <>
       <Landing />
       <LandingProducts />
+      <Trust /> {/* ADD THIS */}
     </>
   );
 }
@@ -28,20 +30,15 @@ function App() {
         <Routes>
           {/* Home page - shows Landing and Products */}
           <Route path="/" element={<HomePage />} />
-          
           {/* Product details page */}
           <Route path="/product/:id" element={<ProductDetails />} />
-          
           {/* Products page with filters */}
           <Route path="/products" element={<Products />} />
-          
           {/* Contact page */}
           <Route path="/contact" element={<Contact />} />
-          
-          {/* Basket page - ADD THIS */}
+          {/* Basket page */}
           <Route path="/basket" element={<Basket />} />
-
-          {/* About page - ADD THIS */}
+          {/* About page */}
           <Route path="/about" element={<About />} />
         </Routes>
         <Footer />

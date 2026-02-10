@@ -1,0 +1,198 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --font-stack: "SF Pro Display", "SF Pro Icons", -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+}
+
+/* Trust Container */
+.trust-container {
+    width: 100%;
+    padding: 60px 0;
+    background-color: #fbfbfd;
+}
+
+.trust-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 60px;
+    width: 100%;
+}
+
+/* Title */
+.trust-title {
+    font-family: var(--font-stack);
+    font-size: 40px;
+    font-weight: 600;
+    color: #1d1d1f;
+    margin: 0 0 40px 0;
+    letter-spacing: -0.005em;
+    line-height: 1.1;
+    text-align: center;
+}
+
+/* Grid */
+.trust-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+/* Card */
+.trust-card {
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 32px 24px;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.trust-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* Icon */
+.trust-icon {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f5f5f7;
+    border-radius: 50%;
+    color: #1d1d1f;
+}
+
+.trust-icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+/* Card Title */
+.trust-card-title {
+    font-family: var(--font-stack);
+    font-size: 17px;
+    font-weight: 600;
+    color: #1d1d1f;
+    margin: 0 0 8px 0;
+    letter-spacing: 0.011em;
+    line-height: 1.19048;
+}
+
+/* Text */
+.trust-text {
+    font-family: var(--font-stack);
+    font-size: 15px;
+    font-weight: 400;
+    color: #6e6e73;
+    margin: 0;
+    letter-spacing: -0.022em;
+    line-height: 1.47059;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .trust-content {
+        max-width: 900px;
+    }
+
+    .trust-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+
+    .trust-title {
+        font-size: 36px;
+        margin-bottom: 32px;
+    }
+}
+
+@media (max-width: 900px) {
+    .trust-container {
+        padding: 50px 0;
+    }
+
+    .trust-content {
+        padding: 0 40px;
+    }
+
+    .trust-title {
+        font-size: 32px;
+        margin-bottom: 28px;
+    }
+
+    .trust-card {
+        padding: 28px 20px;
+    }
+}
+
+@media (max-width: 640px) {
+    .trust-container {
+        padding: 40px 0;
+    }
+
+    .trust-content {
+        padding: 0 20px;
+    }
+
+    .trust-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .trust-title {
+        font-size: 28px;
+        margin-bottom: 24px;
+    }
+
+    .trust-card {
+        padding: 24px 16px;
+    }
+
+    .trust-icon {
+        width: 40px;
+        height: 40px;
+        margin-bottom: 12px;
+    }
+
+    .trust-icon svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .trust-card-title {
+        font-size: 15px;
+    }
+
+    .trust-text {
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 480px) {
+    .trust-title {
+        font-size: 24px;
+    }
+
+    .trust-card {
+        padding: 20px 14px;
+    }
+
+    .trust-card-title {
+        font-size: 14px;
+        margin-bottom: 6px;
+    }
+
+    .trust-text {
+        font-size: 12px;
+    }
+}
+
+/* Smooth animations */
+@media (prefers-reduced-motion: reduce) {
+    .trust-card {
+        transition: none;
+    }
+}
