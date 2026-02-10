@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; // ADD THIS
 import '../Styles/Landing.css';
 
 function Landing() {
+  const navigate = useNavigate(); // ADD THIS
   const [landingTitle, setLandingTitle] = useState("");
   const [landingDescription, setLandingDescription] = useState("");
   const [landingBanner, setLandingBanner] = useState("");
@@ -33,7 +35,6 @@ function Landing() {
         setLoading(false);
       }
     };
-
     loadLandingSettings();
   }, []);
 
@@ -100,10 +101,16 @@ function Landing() {
             </>
           )}
           <div className="landing-buttons">
-            <button className="apple-button apple-button-primary">
+            <button
+              className="apple-button apple-button-primary"
+              onClick={() => navigate('/products')} // ADD THIS
+            >
               იხილეთ პროდუქტები
             </button>
-            <button className="apple-button apple-button-secondary">
+            <button
+              className="apple-button apple-button-secondary"
+              onClick={() => navigate('/contact')} // ADD THIS
+            >
               დაგვიკავშირდით
             </button>
           </div>
