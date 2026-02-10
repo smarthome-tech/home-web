@@ -7,7 +7,10 @@ function Header() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [basketCount, setBasketCount] = useState(0)
+  const [currentLogo, setCurrentLogo] = useState("")
   const location = useLocation()
+
+  const API_BASE_URL = "https://home-back-3lqs.onrender.com"
 
   useEffect(() => {
     const handleScroll = () => {
@@ -29,18 +32,34 @@ function Header() {
     }
 
     window.addEventListener('basketUpdate', handleBasketUpdate)
-    
+
     // Load basket count from localStorage on mount
     const loadBasketCount = () => {
       const basket = JSON.parse(localStorage.getItem('basket') || '[]')
       setBasketCount(basket.reduce((total, item) => total + (item.quantity || 1), 0))
     }
-    
+
     loadBasketCount()
 
     return () => {
       window.removeEventListener('basketUpdate', handleBasketUpdate)
     }
+  }, [])
+
+  // Load logo from settings
+  useEffect(() => {
+    const loadLogo = async () => {
+      try {
+        const res = await fetch(`${API_BASE_URL}/settings`)
+        if (res.ok) {
+          const data = await res.json()
+          setCurrentLogo(data.settings?.logo || "")
+        }
+      } catch (err) {
+        console.error("Error loading logo:", err)
+      }
+    }
+    loadLogo()
   }, [])
 
   const handleStateChange = (state) => {
@@ -55,7 +74,7 @@ function Header() {
     <>
       <header className={`header ${scrolled ? 'scrolled' : ''}`}>
         <div className="header-glow-top"></div>
-        
+
         <div className="header-container">
           <div className="header-left">
             <div className="decorative-dots">
@@ -64,34 +83,42 @@ function Header() {
               <span className="dot"></span>
             </div>
             <Link to="/" className="logo">
-              SmartHome
+              {currentLogo ? (
+                <img
+                  src={currentLogo}
+                  alt="SmartHome Logo"
+                  className="logo-image"
+                />
+              ) : (
+                "SmartHome"
+              )}
             </Link>
           </div>
-          
+
           <nav className="nav desktop-nav">
-            <Link 
-              to="/" 
+            <Link
+              to="/"
               className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}
             >
               <span className="nav-text">მთავარი</span>
               <span className="nav-indicator"></span>
             </Link>
-            <Link 
-              to="/products" 
+            <Link
+              to="/products"
               className={`nav-link ${location.pathname === '/products' ? 'active' : ''}`}
             >
               <span className="nav-text">პროდუქტები</span>
               <span className="nav-indicator"></span>
             </Link>
-            <Link 
-              to="/about" 
+            <Link
+              to="/about"
               className={`nav-link ${location.pathname === '/about' ? 'active' : ''}`}
             >
               <span className="nav-text">ჩვენს შესახებ</span>
               <span className="nav-indicator"></span>
             </Link>
-            <Link 
-              to="/contact" 
+            <Link
+              to="/contact"
               className={`nav-link ${location.pathname === '/contact' ? 'active' : ''}`}
             >
               <span className="nav-text">კონტაქტი</span>
@@ -101,22 +128,22 @@ function Header() {
 
           <div className="header-right">
             <div className="status-line"></div>
-            
+
             {/* Basket Icon */}
             <Link to="/basket" className="basket-link">
               <div className="basket-icon-wrapper">
-                <svg 
-                  className="basket-icon" 
-                  viewBox="0 0 24 24" 
-                  fill="none" 
-                  stroke="currentColor" 
+                <svg
+                  className="basket-icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
                   strokeWidth="2"
-                  strokeLinecap="round" 
+                  strokeLinecap="round"
                   strokeLinejoin="round"
                 >
-                  <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
-                  <line x1="3" y1="6" x2="21" y2="6"/>
-                  <path d="M16 10a4 4 0 0 1-8 0"/>
+                  <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                  <line x1="3" y1="6" x2="21" y2="6" />
+                  <path d="M16 10a4 4 0 0 1-8 0" />
                 </svg>
                 {basketCount > 0 && (
                   <span className="basket-count2">{basketCount}</span>
@@ -127,7 +154,7 @@ function Header() {
             <div className="live-indicator">
               <span className="live-dot"></span>
             </div>
-            <button 
+            <button
               className={`menu-toggle ${menuOpen ? 'open' : ''}`}
               onClick={() => setMenuOpen(!menuOpen)}
               aria-label="Toggle menu"
@@ -172,7 +199,7 @@ function Header() {
         }}
       >
         <div className="sidebar-header">
-          <button 
+          <button
             className="sidebar-close"
             onClick={closeMenu}
             aria-label="Close menu"
@@ -183,32 +210,32 @@ function Header() {
         </div>
 
         <nav className="sidebar-nav">
-          <Link 
-            to="/" 
+          <Link
+            to="/"
             className={`sidebar-link ${location.pathname === '/' ? 'active' : ''}`}
             onClick={closeMenu}
           >
             <span className="sidebar-link-text">მთავარი</span>
             <span className="sidebar-link-arrow">→</span>
           </Link>
-          <Link 
-            to="/products" 
+          <Link
+            to="/products"
             className={`sidebar-link ${location.pathname === '/products' ? 'active' : ''}`}
             onClick={closeMenu}
           >
             <span className="sidebar-link-text">პროდუქტები</span>
             <span className="sidebar-link-arrow">→</span>
           </Link>
-          <Link 
-            to="/about" 
+          <Link
+            to="/about"
             className={`sidebar-link ${location.pathname === '/about' ? 'active' : ''}`}
             onClick={closeMenu}
           >
             <span className="sidebar-link-text">ჩვენს შესახებ</span>
             <span className="sidebar-link-arrow">→</span>
           </Link>
-          <Link 
-            to="/contact" 
+          <Link
+            to="/contact"
             className={`sidebar-link ${location.pathname === '/contact' ? 'active' : ''}`}
             onClick={closeMenu}
           >

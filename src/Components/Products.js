@@ -10,7 +10,7 @@ function Products() {
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState('all');
   const navigate = useNavigate();
-  
+
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const productsPerPage = 16;
@@ -42,7 +42,7 @@ function Products() {
       const productList = data.products || [];
       setAllProducts(productList);
       setFilteredProducts(productList);
-      
+
       const pages = Math.ceil(productList.length / productsPerPage);
       setTotalPages(pages);
     } catch (err) {
@@ -63,7 +63,7 @@ function Products() {
 
   const handleFilterChange = (category) => {
     setSelectedCategory(category);
-    
+
     if (category === 'all') {
       setFilteredProducts(allProducts);
       const pages = Math.ceil(allProducts.length / productsPerPage);
@@ -103,18 +103,18 @@ function Products() {
 
   const handleAddToCart = (e, product) => {
     e.stopPropagation();
-    
+
     // Get existing basket from localStorage
     const existingBasket = JSON.parse(localStorage.getItem('basket') || '[]');
-    
+
     // Check if product already exists in basket
     const existingProductIndex = existingBasket.findIndex(
       item => item._id === product._id
     );
-    
+
     if (existingProductIndex !== -1) {
       // If product exists, increase quantity
-      existingBasket[existingProductIndex].quantity = 
+      existingBasket[existingProductIndex].quantity =
         (existingBasket[existingProductIndex].quantity || 1) + 1;
     } else {
       // If product doesn't exist, add it with quantity 1
@@ -123,20 +123,20 @@ function Products() {
         quantity: 1
       });
     }
-    
+
     // Save updated basket to localStorage
     localStorage.setItem('basket', JSON.stringify(existingBasket));
-    
+
     // Dispatch custom event to update header basket count
     const totalCount = existingBasket.reduce(
-      (total, item) => total + (item.quantity || 1), 
+      (total, item) => total + (item.quantity || 1),
       0
     );
-    
-    window.dispatchEvent(new CustomEvent('basketUpdate', { 
-      detail: { count: totalCount } 
+
+    window.dispatchEvent(new CustomEvent('basketUpdate', {
+      detail: { count: totalCount }
     }));
-    
+
     // Optional: Show a brief success message
     console.log('Product added to basket:', product.name);
   };
@@ -179,10 +179,24 @@ function Products() {
   if (loading) {
     return (
       <>
-        <Filter products={allProducts} onFilterChange={handleFilterChange} />
+        <Filter products={[]} onFilterChange={() => { }} />
         <div className="products-page-container">
-          <div className="loading-state">
-            <div className="loading-spinner"></div>
+          <div className="products-page-content">
+            <div className="products-page-grid">
+              {[...Array(16)].map((_, index) => (
+                <div key={index} className="product-card skeleton">
+                  <div className="skeleton-image"></div>
+                  <div className="product-info">
+                    <div className="skeleton-text skeleton-title"></div>
+                    <div className="skeleton-text skeleton-price"></div>
+                    <div className="skeleton-buttons">
+                      <div className="skeleton-btn skeleton-btn-primary"></div>
+                      <div className="skeleton-btn skeleton-btn-secondary"></div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </>
@@ -191,8 +205,8 @@ function Products() {
 
   return (
     <>
-      <Filter 
-        products={allProducts} 
+      <Filter
+        products={allProducts}
         onFilterChange={handleFilterChange}
       />
 
@@ -206,8 +220,8 @@ function Products() {
 
           <div className="products-page-grid">
             {products.map((product) => (
-              <div 
-                key={product._id} 
+              <div
+                key={product._id}
                 className="product-card"
                 onClick={() => handleViewDetails(product._id)}
               >
@@ -224,23 +238,23 @@ function Products() {
 
                 <div className="product-info">
                   <h3 className="product-name">{product.name}</h3>
-                  
+
                   <p className="product-price">₾{product.price?.toFixed(2)}</p>
-                  
+
                   <div className="product-actions">
-                    <button 
+                    <button
                       className="add-to-cart-btn"
                       onClick={(e) => handleAddToCart(e, product)}
                     >
                       <span className="btn-text">კალათაში დამატება</span>
                     </button>
-                    
-                    <button 
+
+                    <button
                       className="details-btn icon-wrapper"
                       onClick={() => handleViewDetails(product._id)}
                     >
                       <span className="icon-copy">დეტალურად</span>
-                      <span className="icon icon-after more" aria-hidden="true"></span>
+                      <span className="icon-icon-after more" aria-hidden="true"></span>
                     </button>
                   </div>
                 </div>
@@ -250,13 +264,13 @@ function Products() {
 
           {totalPages > 1 && (
             <div className="pagination-container">
-              <button 
+              <button
                 className="pagination-arrow"
                 onClick={handlePrevPage}
                 disabled={currentPage === 1}
               >
                 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </button>
 
@@ -276,13 +290,13 @@ function Products() {
                 ))}
               </div>
 
-              <button 
+              <button
                 className="pagination-arrow"
                 onClick={handleNextPage}
                 disabled={currentPage === totalPages}
               >
                 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M9 18l6-6-6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M9 18l6-6-6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </button>
             </div>
@@ -291,7 +305,7 @@ function Products() {
           {products.length > 0 && (
             <div className="page-info">
               <p className="page-info-text">
-                გვერდი {currentPage} / {totalPages} • 
+                გვერდი {currentPage} / {totalPages} •
                 ნაჩვენებია {((currentPage - 1) * productsPerPage) + 1}-{Math.min(currentPage * productsPerPage, filteredProducts.length)} / {filteredProducts.length}
               </p>
             </div>

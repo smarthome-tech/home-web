@@ -59,7 +59,9 @@
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Empty State */
@@ -502,10 +504,176 @@
 
 /* Smooth animations */
 @media (prefers-reduced-motion: reduce) {
+
   .product-card,
   .product-img,
   .pagination-number,
   .pagination-arrow {
     transition: none;
+  }
+}
+
+
+
+
+/* Skeleton Loading Styles for Products Page - Add this to your Products.css */
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.product-card.skeleton {
+  pointer-events: none;
+  cursor: default;
+}
+
+.product-card.skeleton:hover {
+  transform: none;
+}
+
+.skeleton-image {
+  width: 100%;
+  height: 205px;
+  background: linear-gradient(90deg,
+      #f0f0f0 0%,
+      #f8f8f8 50%,
+      #f0f0f0 100%);
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite linear;
+  border-radius: 1.6rem;
+  flex-shrink: 0;
+}
+
+.skeleton-text {
+  background: linear-gradient(90deg,
+      #f0f0f0 0%,
+      #f8f8f8 50%,
+      #f0f0f0 100%);
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite linear;
+  border-radius: 6px;
+  height: 18px;
+  margin-bottom: 10px;
+}
+
+.skeleton-title {
+  width: 65%;
+  margin: 0 auto 6px;
+  height: 21px;
+}
+
+.skeleton-price {
+  width: 35%;
+  margin: 0 auto 16px;
+  height: 17px;
+}
+
+.skeleton-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.skeleton-btn {
+  background: linear-gradient(90deg,
+      #f0f0f0 0%,
+      #f8f8f8 50%,
+      #f0f0f0 100%);
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite linear;
+  height: 32px;
+}
+
+.skeleton-btn-primary {
+  width: 135px;
+  border-radius: 980px;
+}
+
+.skeleton-btn-secondary {
+  width: 85px;
+  border-radius: 6px;
+}
+
+/* Responsive skeleton */
+@media (max-width: 1200px) {
+  .skeleton-image {
+    height: 185px;
+  }
+}
+
+@media (max-width: 900px) {
+  .skeleton-image {
+    height: 165px;
+  }
+
+  .skeleton-title {
+    height: 19px;
+  }
+
+  .skeleton-price {
+    height: 15px;
+  }
+
+  .skeleton-btn {
+    height: 30px;
+  }
+
+  .skeleton-btn-primary {
+    width: 120px;
+  }
+
+  .skeleton-btn-secondary {
+    width: 75px;
+  }
+}
+
+@media (max-width: 640px) {
+  .skeleton-image {
+    height: 305px;
+  }
+
+  .skeleton-title {
+    height: 21px;
+  }
+
+  .skeleton-price {
+    height: 17px;
+  }
+
+  .skeleton-buttons {
+    flex-direction: column;
+  }
+
+  .skeleton-btn-primary,
+  .skeleton-btn-secondary {
+    width: 100%;
+    height: 36px;
+    border-radius: 980px;
+  }
+}
+
+@media (max-width: 400px) {
+  .skeleton-image {
+    height: 255px;
+  }
+
+  .skeleton-title {
+    height: 19px;
+  }
+
+  .skeleton-price {
+    height: 15px;
+  }
+
+  .skeleton-btn-primary,
+  .skeleton-btn-secondary {
+    height: 32px;
   }
 }

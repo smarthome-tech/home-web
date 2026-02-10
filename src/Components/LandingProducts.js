@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Filter from './Filter';
 import '../Styles/LandingProducts.css';
@@ -8,9 +8,12 @@ function LandingProducts() {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
-  
+  const productsTopRef = useRef(null);
+
   const API_BASE_URL = "https://home-back-3lqs.onrender.com";
+  const PRODUCTS_PER_PAGE = 8; // 2 rows × 4 columns
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -51,7 +54,7 @@ function LandingProducts() {
       }
 
       document.documentElement.style.setProperty(
-        '--noise-texture', 
+        '--noise-texture',
         `url(${canvas.toDataURL("image/png")})`
       );
     };
@@ -62,7 +65,8 @@ function LandingProducts() {
   // Handle filter changes
   const handleFilterChange = (category) => {
     setSelectedCategory(category);
-    
+    setCurrentPage(1);
+
     if (category === 'all') {
       setFilteredProducts(products);
     } else {
@@ -79,65 +83,100 @@ function LandingProducts() {
 
   const handleAddToCart = (e, product) => {
     e.stopPropagation();
-    
-    // Get existing basket from localStorage
+
     const existingBasket = JSON.parse(localStorage.getItem('basket') || '[]');
-    
-    // Check if product already exists in basket
     const existingProductIndex = existingBasket.findIndex(
       item => item._id === product._id
     );
-    
+
     if (existingProductIndex !== -1) {
-      // If product exists, increase quantity
-      existingBasket[existingProductIndex].quantity = 
+      existingBasket[existingProductIndex].quantity =
         (existingBasket[existingProductIndex].quantity || 1) + 1;
     } else {
-      // If product doesn't exist, add it with quantity 1
       existingBasket.push({
         ...product,
         quantity: 1
       });
     }
-    
-    // Save updated basket to localStorage
+
     localStorage.setItem('basket', JSON.stringify(existingBasket));
-    
-    // Dispatch custom event to update header basket count
+
     const totalCount = existingBasket.reduce(
-      (total, item) => total + (item.quantity || 1), 
+      (total, item) => total + (item.quantity || 1),
       0
     );
-    
-    window.dispatchEvent(new CustomEvent('basketUpdate', { 
-      detail: { count: totalCount } 
+
+    window.dispatchEvent(new CustomEvent('basketUpdate', {
+      detail: { count: totalCount }
     }));
-    
-    // Optional: Show a brief success message
+
     console.log('Product added to basket:', product.name);
+  };
+
+  // Pagination
+  const totalPages = Math.ceil(filteredProducts.length / PRODUCTS_PER_PAGE);
+  const indexOfLastProduct = currentPage * PRODUCTS_PER_PAGE;
+  const indexOfFirstProduct = indexOfLastProduct - PRODUCTS_PER_PAGE;
+  const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    if (productsTopRef.current) {
+      productsTopRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      handlePageChange(currentPage + 1);
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      handlePageChange(currentPage - 1);
+    }
   };
 
   if (loading) {
     return (
-      <div className="products-container">
-        <div className="loading-state">
-          <div className="loading-spinner"></div>
+      <>
+        <Filter
+          products={[]}
+          onFilterChange={() => { }}
+        />
+        <div className="products-container">
+          <div className="products-content">
+            <div className="products-grid">
+              {[...Array(8)].map((_, index) => (
+                <div key={index} className="product-card skeleton">
+                  <div className="skeleton-image"></div>
+                  <div className="product-info">
+                    <div className="skeleton-text skeleton-title"></div>
+                    <div className="skeleton-text skeleton-price"></div>
+                    <div className="skeleton-buttons">
+                      <div className="skeleton-btn skeleton-btn-primary"></div>
+                      <div className="skeleton-btn skeleton-btn-secondary"></div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 
   return (
     <>
-      {/* Filter Component */}
-      <Filter 
-        products={products} 
+      <Filter
+        products={products}
         onFilterChange={handleFilterChange}
       />
 
-      <div className="products-container">
+      <div className="products-container" ref={productsTopRef}>
         <div className="products-content">
-          {/* Show message if no products match filter */}
           {filteredProducts.length === 0 && !loading && (
             <div className="empty-state">
               <p className="empty-text">პროდუქტი არ მოიძებნა ამ კატეგორიაში</p>
@@ -145,14 +184,14 @@ function LandingProducts() {
           )}
 
           <div className="products-grid">
-            {filteredProducts.map((product) => (
-              <div 
-                key={product._id} 
+            {currentProducts.map((product) => (
+              <div
+                key={product._id}
                 className="product-card"
                 onClick={() => handleViewDetails(product._id)}
               >
                 <div className="card-noise-overlay"></div>
-                
+
                 <div className="product-image-container">
                   {product.mainImage && (
                     <img
@@ -166,18 +205,18 @@ function LandingProducts() {
 
                 <div className="product-info">
                   <h3 className="product-name">{product.name}</h3>
-                  
+
                   <p className="product-price">₾{product.price?.toFixed(2)}</p>
-                  
+
                   <div className="product-actions">
-                    <button 
+                    <button
                       className="add-to-cart-btn"
                       onClick={(e) => handleAddToCart(e, product)}
                     >
                       <span className="btn-text">კალათაში დამატება</span>
                     </button>
-                    
-                    <button 
+
+                    <button
                       className="details-btn icon-wrapper"
                       onClick={() => handleViewDetails(product._id)}
                     >
@@ -189,6 +228,38 @@ function LandingProducts() {
               </div>
             ))}
           </div>
+
+          {totalPages > 1 && (
+            <div className="pagination">
+              <button
+                className="pagination-btn"
+                onClick={handlePrevPage}
+                disabled={currentPage === 1}
+              >
+                ← წინა
+              </button>
+
+              <div className="pagination-numbers">
+                {[...Array(totalPages)].map((_, index) => (
+                  <button
+                    key={index + 1}
+                    className={`pagination-number ${currentPage === index + 1 ? 'active' : ''}`}
+                    onClick={() => handlePageChange(index + 1)}
+                  >
+                    {index + 1}
+                  </button>
+                ))}
+              </div>
+
+              <button
+                className="pagination-btn"
+                onClick={handleNextPage}
+                disabled={currentPage === totalPages}
+              >
+                შემდეგი →
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </>

@@ -60,7 +60,9 @@
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Products Grid */
@@ -416,11 +418,284 @@
 
 /* Smooth animations */
 @media (prefers-reduced-motion: reduce) {
+
   .product-card,
   .product-img,
   .details-btn,
   .add-to-cart-btn,
   .product-name {
     transition: none;
+  }
+}
+
+
+/* Pagination Styles - Add this to the end of your LandingProducts.css */
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 48px;
+  padding: 0 20px;
+}
+
+.pagination-btn {
+  font-family: var(--font-stack);
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--sk-body-link-color);
+  background: transparent;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  letter-spacing: -0.022em;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background: #f5f5f7;
+  color: #0058b3;
+}
+
+.pagination-btn:disabled {
+  color: #86868b;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.pagination-numbers {
+  display: flex;
+  gap: 6px;
+}
+
+.pagination-number {
+  font-family: var(--font-stack);
+  font-size: 15px;
+  font-weight: 400;
+  color: #1d1d1f;
+  background: transparent;
+  border: 1px solid #d2d2d7;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pagination-number:hover {
+  background: #f5f5f7;
+  border-color: #86868b;
+}
+
+.pagination-number.active {
+  background: #0071e3;
+  color: #ffffff;
+  border-color: #0071e3;
+  font-weight: 500;
+}
+
+/* Pagination Responsive */
+@media (max-width: 640px) {
+  .pagination {
+    margin-top: 32px;
+    gap: 8px;
+  }
+
+  .pagination-btn {
+    font-size: 14px;
+    padding: 6px 12px;
+  }
+
+  .pagination-number {
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 400px) {
+  .pagination {
+    margin-top: 24px;
+    gap: 6px;
+  }
+
+  .pagination-btn {
+    font-size: 13px;
+    padding: 5px 10px;
+  }
+
+  .pagination-number {
+    width: 32px;
+    height: 32px;
+    font-size: 13px;
+  }
+}
+
+
+
+/* Skeleton Loading Styles - Add this to your LandingProducts.css */
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.product-card.skeleton {
+  pointer-events: none;
+  cursor: default;
+}
+
+.product-card.skeleton:hover {
+  transform: none;
+}
+
+.skeleton-image {
+  width: 100%;
+  height: 245px;
+  background: linear-gradient(90deg,
+      #f0f0f0 0%,
+      #f8f8f8 50%,
+      #f0f0f0 100%);
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite linear;
+  border-radius: 1.6rem;
+  flex-shrink: 0;
+}
+
+.skeleton-text {
+  background: linear-gradient(90deg,
+      #f0f0f0 0%,
+      #f8f8f8 50%,
+      #f0f0f0 100%);
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite linear;
+  border-radius: 6px;
+  height: 18px;
+  margin-bottom: 10px;
+}
+
+.skeleton-title {
+  width: 65%;
+  margin: 0 auto 6px;
+  height: 21px;
+}
+
+.skeleton-price {
+  width: 35%;
+  margin: 0 auto 16px;
+  height: 17px;
+}
+
+.skeleton-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.skeleton-btn {
+  background: linear-gradient(90deg,
+      #f0f0f0 0%,
+      #f8f8f8 50%,
+      #f0f0f0 100%);
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite linear;
+  height: 32px;
+}
+
+.skeleton-btn-primary {
+  width: 135px;
+  border-radius: 980px;
+}
+
+.skeleton-btn-secondary {
+  width: 85px;
+  border-radius: 6px;
+}
+
+/* Responsive skeleton */
+@media (max-width: 1200px) {
+  .skeleton-image {
+    height: 225px;
+  }
+}
+
+@media (max-width: 900px) {
+  .skeleton-image {
+    height: 205px;
+  }
+
+  .skeleton-title {
+    height: 19px;
+  }
+
+  .skeleton-price {
+    height: 15px;
+  }
+
+  .skeleton-btn {
+    height: 30px;
+  }
+
+  .skeleton-btn-primary {
+    width: 120px;
+  }
+
+  .skeleton-btn-secondary {
+    width: 75px;
+  }
+}
+
+@media (max-width: 640px) {
+  .skeleton-image {
+    height: 325px;
+  }
+
+  .skeleton-title {
+    height: 21px;
+  }
+
+  .skeleton-price {
+    height: 17px;
+  }
+
+  .skeleton-buttons {
+    flex-direction: column;
+  }
+
+  .skeleton-btn-primary,
+  .skeleton-btn-secondary {
+    width: 100%;
+    height: 36px;
+    border-radius: 980px;
+  }
+}
+
+@media (max-width: 400px) {
+  .skeleton-image {
+    height: 285px;
+  }
+
+  .skeleton-title {
+    height: 19px;
+  }
+
+  .skeleton-price {
+    height: 15px;
+  }
+
+  .skeleton-btn-primary,
+  .skeleton-btn-secondary {
+    height: 32px;
   }
 }

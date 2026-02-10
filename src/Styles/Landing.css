@@ -18,12 +18,10 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(
-    to right,
-    rgba(4, 17, 22, 0.608) 0%,
-    rgba(4, 17, 22, 0.258) 50%,
-    rgba(4, 17, 22, 0.198) 100%
-  );
+  background: linear-gradient(to right,
+      rgba(4, 17, 22, 0.608) 0%,
+      rgba(4, 17, 22, 0.258) 50%,
+      rgba(4, 17, 22, 0.198) 100%);
   z-index: 1;
 }
 
@@ -170,15 +168,15 @@
   .landing-content {
     padding: 0 48px;
   }
-  
+
   .landing-title {
     font-size: 48px;
   }
-  
+
   .landing-description {
     font-size: 17px;
   }
-  
+
   .transparent-image {
     height: 400px;
   }
@@ -191,7 +189,7 @@
     min-height: 500px;
     padding: 60px 0;
   }
-  
+
   .landing-content {
     padding: 0 40px;
     flex-direction: column;
@@ -199,33 +197,33 @@
     justify-content: center;
     gap: 40px;
   }
-  
+
   .landing-text {
     max-width: 100%;
     text-align: center;
   }
-  
+
   .landing-title {
     font-size: 44px;
     margin-bottom: 20px;
   }
-  
+
   .landing-description {
     font-size: 16px;
     margin-bottom: 32px;
   }
-  
-  
-  
+
+
+
   .landing-buttons {
     justify-content: center;
   }
-  
+
   .landing-image-right {
     align-self: center;
     margin-top: 20px;
   }
-  
+
   .transparent-image {
     height: 320px;
   }
@@ -237,34 +235,34 @@
     min-height: 600px;
     padding: 40px 0;
   }
-  
+
   .landing-content {
     padding: 0 32px;
     gap: 32px;
   }
-  
+
   .landing-title {
     font-size: 38px;
     letter-spacing: -0.5px;
   }
-  
+
   .landing-description {
     font-size: 15px;
     margin-bottom: 28px;
   }
-  
+
   .landing-buttons {
     gap: 12px;
     width: 100%;
   }
-  
+
   .apple-button {
     font-size: 16px;
     padding: 12px 24px;
     flex: 1;
     min-width: 140px;
   }
-  
+
   .transparent-image {
     height: 280px;
   }
@@ -276,36 +274,36 @@
     min-height: auto;
     padding: 32px 0;
   }
-  
+
   .landing-content {
     padding: 0 24px;
     gap: 28px;
   }
-  
+
   .landing-title {
     font-size: 32px;
     margin-bottom: 16px;
     letter-spacing: -0.3px;
   }
-  
+
 
   .landing-description {
     font-size: 14px;
     margin-bottom: 24px;
     line-height: 1.5;
   }
-  
+
   .landing-buttons {
     flex-direction: column;
     gap: 12px;
   }
-  
+
   .apple-button {
     width: 100%;
     font-size: 15px;
     padding: 14px 28px;
   }
-  
+
   .transparent-image {
     height: 240px;
   }
@@ -316,27 +314,27 @@
   .landing-container {
     padding: 24px 0;
   }
-  
+
   .landing-content {
     padding: 0 20px;
     gap: 24px;
   }
-  
+
   .landing-title {
     font-size: 28px;
     margin-bottom: 12px;
   }
-  
+
   .landing-description {
     font-size: 13px;
     margin-bottom: 20px;
   }
-  
+
   .apple-button {
     font-size: 14px;
     padding: 12px 24px;
   }
-  
+
   .transparent-image {
     height: 200px;
   }
@@ -348,42 +346,186 @@
     min-height: 100vh;
     padding: 20px 0;
   }
-  
+
   .landing-content {
     flex-direction: row;
     gap: 40px;
     padding: 0 40px;
   }
-  
+
   .landing-text {
     text-align: left;
     max-width: 50%;
   }
-  
+
   .landing-title {
     font-size: 28px;
     margin-bottom: 12px;
   }
-  
+
   .landing-description {
     font-size: 13px;
     margin-bottom: 16px;
   }
-  
+
   .landing-buttons {
     gap: 8px;
   }
-  
+
   .apple-button {
     font-size: 13px;
     padding: 8px 16px;
   }
-  
+
   .landing-image-right {
     display: block;
   }
-  
+
   .transparent-image {
     height: 280px;
+  }
+}
+
+
+
+
+/* Landing Skeleton Loading - Add this to your Landing.css */
+
+@keyframes landing-shimmer {
+  0% {
+    background-position: -600px 0;
+  }
+
+  100% {
+    background-position: 600px 0;
+  }
+}
+
+.landing-skeleton {
+  background: linear-gradient(90deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(255, 255, 255, 0.25) 50%,
+      rgba(255, 255, 255, 0.1) 100%);
+  background-size: 600px 100%;
+  animation: landing-shimmer 1.8s infinite linear;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.landing-skeleton-title {
+  height: 54px;
+  width: 85%;
+}
+
+.landing-skeleton-title-line2 {
+  height: 54px;
+  width: 70%;
+  margin-bottom: 24px;
+}
+
+.landing-skeleton-desc {
+  height: 18px;
+  width: 75%;
+}
+
+.landing-skeleton-desc-line2 {
+  height: 18px;
+  width: 60%;
+  margin-bottom: 40px;
+}
+
+/* Responsive skeleton */
+@media (max-width: 1200px) {
+
+  .landing-skeleton-title,
+  .landing-skeleton-title-line2 {
+    height: 48px;
+  }
+
+  .landing-skeleton-desc,
+  .landing-skeleton-desc-line2 {
+    height: 17px;
+  }
+}
+
+@media (max-width: 900px) {
+  .landing-skeleton {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .landing-skeleton-title {
+    height: 44px;
+    width: 90%;
+  }
+
+  .landing-skeleton-title-line2 {
+    height: 44px;
+    width: 75%;
+    margin-bottom: 20px;
+  }
+
+  .landing-skeleton-desc {
+    height: 16px;
+    width: 80%;
+  }
+
+  .landing-skeleton-desc-line2 {
+    height: 16px;
+    width: 65%;
+    margin-bottom: 32px;
+  }
+}
+
+@media (max-width: 768px) {
+
+  .landing-skeleton-title,
+  .landing-skeleton-title-line2 {
+    height: 38px;
+  }
+
+  .landing-skeleton-desc,
+  .landing-skeleton-desc-line2 {
+    height: 15px;
+    margin-bottom: 28px;
+  }
+}
+
+@media (max-width: 480px) {
+  .landing-skeleton-title {
+    height: 32px;
+    width: 95%;
+  }
+
+  .landing-skeleton-title-line2 {
+    height: 32px;
+    width: 85%;
+    margin-bottom: 16px;
+  }
+
+  .landing-skeleton-desc {
+    height: 14px;
+    width: 85%;
+  }
+
+  .landing-skeleton-desc-line2 {
+    height: 14px;
+    width: 70%;
+    margin-bottom: 24px;
+  }
+}
+
+@media (max-width: 375px) {
+
+  .landing-skeleton-title,
+  .landing-skeleton-title-line2 {
+    height: 28px;
+    margin-bottom: 12px;
+  }
+
+  .landing-skeleton-desc,
+  .landing-skeleton-desc-line2 {
+    height: 13px;
+    margin-bottom: 20px;
   }
 }
