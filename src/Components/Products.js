@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Filter from './Filter';
 import '../Styles/Products.css';
+import Trust from './Trust';
 
 function Products() {
   const [products, setProducts] = useState([]);
@@ -311,7 +312,10 @@ function Products() {
             </div>
           )}
         </div>
+
       </div>
+      {/* ADD TRUST COMPONENT HERE */}
+      <Trust />
     </>
   );
 }
