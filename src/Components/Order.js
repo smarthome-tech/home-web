@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm, ValidationError } from '@formspree/react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import '../Styles/Order.css';
@@ -18,6 +18,31 @@ function Order() {
         phone: '',
         address: ''
     });
+
+    // Scroll to top when component mounts
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
+    // Scroll to top when success state changes
+    useEffect(() => {
+        if (state.succeeded) {
+            window.scrollTo(0, 0);
+        }
+    }, [state.succeeded]);
+
+    // Clear basket when order is successfully submitted
+    useEffect(() => {
+        if (state.succeeded && basketItems && basketItems.length > 0) {
+            // Clear the basket from localStorage
+            localStorage.setItem('basket', JSON.stringify([]));
+
+            // Update the header basket count to 0
+            window.dispatchEvent(new CustomEvent('basketUpdate', {
+                detail: { count: 0 }
+            }));
+        }
+    }, [state.succeeded, basketItems]);
 
     const handleChange = (e) => {
         setFormData({
