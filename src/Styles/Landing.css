@@ -237,6 +237,7 @@
   }
 
   .landing-content {
+    height: 60vh;
     padding: 0 32px;
     gap: 32px;
   }
@@ -276,6 +277,7 @@
   }
 
   .landing-content {
+    height: 60vh;
     padding: 0 24px;
     gap: 28px;
   }

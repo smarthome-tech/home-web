@@ -82,7 +82,7 @@
   .about-title {
     font-size: 40px;
   }
-  
+
   .about-text {
     font-size: 16px;
   }
@@ -93,16 +93,16 @@
     padding-top: 100px;
     padding-bottom: 60px;
   }
-  
+
   .about-content {
     padding: 0 30px;
   }
-  
+
   .about-title {
     font-size: 36px;
     margin-bottom: 28px;
   }
-  
+
   .about-text {
     font-size: 15px;
     margin-bottom: 20px;
@@ -114,16 +114,16 @@
     padding-top: 90px;
     padding-bottom: 50px;
   }
-  
+
   .about-content {
     padding: 0 24px;
   }
-  
+
   .about-title {
     font-size: 32px;
     margin-bottom: 24px;
   }
-  
+
   .about-text {
     font-size: 15px;
     margin-bottom: 18px;
@@ -134,16 +134,16 @@
   .about-container {
     padding-top: 80px;
   }
-  
+
   .about-content {
     padding: 0 20px;
   }
-  
+
   .about-title {
     font-size: 28px;
     margin-bottom: 20px;
   }
-  
+
   .about-text {
     font-size: 14px;
     margin-bottom: 16px;
@@ -154,8 +154,29 @@
   .about-title {
     font-size: 24px;
   }
-  
+
   .about-text {
     font-size: 14px;
+  }
+}
+
+
+
+.about-skeleton {
+  height: 80px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s ease-in-out infinite;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
   }
 }

@@ -9,7 +9,7 @@ function Footer() {
         {/* Top Section */}
         <div className="footer-top">
           <div className="footer-brand">
-            <h2 className="footer-logo">SmartHome</h2>
+            <h2 className="footer-logo">Davson</h2>
             <p className="footer-tagline">ჭკვიანი სახლი თქვენი კომფორტისთვის</p>
           </div>
 
@@ -34,9 +34,9 @@ function Footer() {
             <div className="footer-column">
               <h3 className="footer-column-title">სოციალური ქსელები</h3>
               <div className="footer-social">
-                <a 
-                  href="https://www.facebook.com/share/18Jd7JF2ow/?mibextid=wwXIfr" 
-                  target="_blank" 
+                <a
+                  href="https://www.facebook.com/share/18Jd7JF2ow/?mibextid=wwXIfr"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="footer-link"
                 >
