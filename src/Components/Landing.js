@@ -1,15 +1,32 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // ADD THIS
+import { useNavigate } from 'react-router-dom';
+import LandingProducts from './LandingProducts';
+import Trust from './Trust';
 import '../Styles/Landing.css';
 
 function Landing() {
-  const navigate = useNavigate(); // ADD THIS
+  const navigate = useNavigate();
   const [landingTitle, setLandingTitle] = useState("");
   const [landingDescription, setLandingDescription] = useState("");
   const [landingBanner, setLandingBanner] = useState("");
   const [loading, setLoading] = useState(true);
 
   const API_BASE_URL = "https://home-back-3lqs.onrender.com";
+
+  // Scroll to top when component mounts - UPDATED
+  useEffect(() => {
+    window.scrollTo(0, 0);
+
+    // Also try with requestAnimationFrame
+    requestAnimationFrame(() => {
+      window.scrollTo(0, 0);
+    });
+
+    // And with a small delay
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 0);
+  }, []);
 
   useEffect(() => {
     // Load landing settings from backend
@@ -64,59 +81,63 @@ function Landing() {
   }, []);
 
   return (
-    <div className="landing-container" style={{
-      backgroundImage: landingBanner ? `url(${landingBanner})` : 'none',
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundRepeat: 'no-repeat'
-    }}>
-      {landingBanner && <div className="landing-overlay"></div>}
-      <div className="landing-content">
-        <div className="landing-text">
-          {loading ? (
-            <>
-              <div className="landing-skeleton landing-skeleton-title"></div>
-              <div className="landing-skeleton landing-skeleton-title-line2"></div>
-              <div className="landing-skeleton landing-skeleton-desc"></div>
-              <div className="landing-skeleton landing-skeleton-desc-line2"></div>
-            </>
-          ) : (
-            <>
-              <h1 className="landing-title">
-                {landingTitle.split('\n').map((line, index) => (
-                  <React.Fragment key={index}>
-                    {line}
-                    {index < landingTitle.split('\n').length - 1 && <br />}
-                  </React.Fragment>
-                ))}
-              </h1>
-              <p className="landing-description">
-                {landingDescription.split('\n').map((line, index) => (
-                  <React.Fragment key={index}>
-                    {line}
-                    {index < landingDescription.split('\n').length - 1 && <br />}
-                  </React.Fragment>
-                ))}
-              </p>
-            </>
-          )}
-          <div className="landing-buttons">
-            <button
-              className="apple-button apple-button-primary"
-              onClick={() => navigate('/products')} // ADD THIS
-            >
-              იხილეთ პროდუქტები
-            </button>
-            <button
-              className="apple-button apple-button-secondary"
-              onClick={() => navigate('/contact')} // ADD THIS
-            >
-              დაგვიკავშირდით
-            </button>
+    <>
+      <div className="landing-container" style={{
+        backgroundImage: landingBanner ? `url(${landingBanner})` : 'none',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }}>
+        {landingBanner && <div className="landing-overlay"></div>}
+        <div className="landing-content">
+          <div className="landing-text">
+            {loading ? (
+              <>
+                <div className="landing-skeleton landing-skeleton-title"></div>
+                <div className="landing-skeleton landing-skeleton-title-line2"></div>
+                <div className="landing-skeleton landing-skeleton-desc"></div>
+                <div className="landing-skeleton landing-skeleton-desc-line2"></div>
+              </>
+            ) : (
+              <>
+                <h1 className="landing-title">
+                  {landingTitle.split('\n').map((line, index) => (
+                    <React.Fragment key={index}>
+                      {line}
+                      {index < landingTitle.split('\n').length - 1 && <br />}
+                    </React.Fragment>
+                  ))}
+                </h1>
+                <p className="landing-description">
+                  {landingDescription.split('\n').map((line, index) => (
+                    <React.Fragment key={index}>
+                      {line}
+                      {index < landingDescription.split('\n').length - 1 && <br />}
+                    </React.Fragment>
+                  ))}
+                </p>
+              </>
+            )}
+            <div className="landing-buttons">
+              <button
+                className="apple-button apple-button-primary"
+                onClick={() => navigate('/products')}
+              >
+                იხილეთ პროდუქტები
+              </button>
+              <button
+                className="apple-button apple-button-secondary"
+                onClick={() => navigate('/contact')}
+              >
+                დაგვიკავშირდით
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      <LandingProducts />
+      <Trust />
+    </>
   );
 }
 

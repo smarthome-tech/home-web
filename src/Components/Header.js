@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { slide as Menu } from 'react-burger-menu'
 import '../Styles/Header.css'
 
@@ -9,6 +9,7 @@ function Header() {
   const [basketCount, setBasketCount] = useState(0)
   const [currentLogo, setCurrentLogo] = useState("")
   const location = useLocation()
+  const navigate = useNavigate()
 
   const API_BASE_URL = "https://home-back-3lqs.onrender.com"
 
@@ -21,19 +22,16 @@ function Header() {
   }, [])
 
   useEffect(() => {
-    // Close menu when route changes
     setMenuOpen(false)
   }, [location])
 
   useEffect(() => {
-    // Listen for basket updates
     const handleBasketUpdate = (event) => {
       setBasketCount(event.detail.count)
     }
 
     window.addEventListener('basketUpdate', handleBasketUpdate)
 
-    // Load basket count from localStorage on mount
     const loadBasketCount = () => {
       const basket = JSON.parse(localStorage.getItem('basket') || '[]')
       setBasketCount(basket.reduce((total, item) => total + (item.quantity || 1), 0))
@@ -46,7 +44,6 @@ function Header() {
     }
   }, [])
 
-  // Load logo from settings
   useEffect(() => {
     const loadLogo = async () => {
       try {
@@ -70,6 +67,22 @@ function Header() {
     setMenuOpen(false)
   }
 
+  const handleLogoClick = (e) => {
+    e.preventDefault()
+    navigate('/')
+  }
+
+  const handleHomeClick = (e) => {
+    e.preventDefault()
+    navigate('/')
+  }
+
+  const handleSidebarHomeClick = (e) => {
+    e.preventDefault()
+    closeMenu()
+    navigate('/')
+  }
+
   return (
     <>
       <header className={`header ${scrolled ? 'scrolled' : ''}`}>
@@ -82,7 +95,7 @@ function Header() {
               <span className="dot"></span>
               <span className="dot"></span>
             </div>
-            <Link to="/" className="logo">
+            <Link to="/" className="logo" onClick={handleLogoClick}>
               {currentLogo ? (
                 <img
                   src={currentLogo}
@@ -98,6 +111,7 @@ function Header() {
           <nav className="nav desktop-nav">
             <Link
               to="/"
+              onClick={handleHomeClick}
               className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}
             >
               <span className="nav-text">მთავარი</span>
@@ -129,7 +143,6 @@ function Header() {
           <div className="header-right">
             <div className="status-line"></div>
 
-            {/* Basket Icon */}
             <Link to="/basket" className="basket-link">
               <div className="basket-icon-wrapper">
                 <svg
@@ -173,7 +186,6 @@ function Header() {
         </div>
       </header>
 
-      {/* React Burger Menu */}
       <Menu
         right
         isOpen={menuOpen}
@@ -213,7 +225,7 @@ function Header() {
           <Link
             to="/"
             className={`sidebar-link ${location.pathname === '/' ? 'active' : ''}`}
-            onClick={closeMenu}
+            onClick={handleSidebarHomeClick}
           >
             <span className="sidebar-link-text">მთავარი</span>
             <span className="sidebar-link-arrow">→</span>

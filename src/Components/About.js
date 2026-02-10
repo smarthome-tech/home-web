@@ -7,6 +7,11 @@ function About() {
 
   const API_BASE_URL = "https://home-back-3lqs.onrender.com";
 
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   useEffect(() => {
     // Load about text from backend
     const loadAboutText = async () => {
