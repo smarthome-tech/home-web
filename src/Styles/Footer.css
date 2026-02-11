@@ -228,3 +228,20 @@
     transition: none;
   }
 }
+
+
+
+.footer-logo-image {
+  max-height: 40px;
+  max-width: 200px;
+  object-fit: contain;
+  margin-bottom: 12px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .footer-logo-image {
+    max-height: 30px;
+    max-width: 150px;
+  }
+}

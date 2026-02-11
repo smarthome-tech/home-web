@@ -96,14 +96,12 @@ function Header() {
               <span className="dot"></span>
             </div>
             <Link to="/" className="logo" onClick={handleLogoClick}>
-              {currentLogo ? (
+              {currentLogo && (
                 <img
                   src={currentLogo}
-                  alt="SmartHome Logo"
+                  alt="Logo"
                   className="logo-image"
                 />
-              ) : (
-                "SmartHome"
               )}
             </Link>
           </div>
@@ -122,6 +120,13 @@ function Header() {
               className={`nav-link ${location.pathname === '/products' ? 'active' : ''}`}
             >
               <span className="nav-text">პროდუქტები</span>
+              <span className="nav-indicator"></span>
+            </Link>
+            <Link
+              to="/services"
+              className={`nav-link ${location.pathname === '/services' ? 'active' : ''}`}
+            >
+              <span className="nav-text">სერვისები</span>
               <span className="nav-indicator"></span>
             </Link>
             <Link
@@ -236,6 +241,14 @@ function Header() {
             onClick={closeMenu}
           >
             <span className="sidebar-link-text">პროდუქტები</span>
+            <span className="sidebar-link-arrow">→</span>
+          </Link>
+          <Link
+            to="/services"
+            className={`sidebar-link ${location.pathname === '/services' ? 'active' : ''}`}
+            onClick={closeMenu}
+          >
+            <span className="sidebar-link-text">სერვისები</span>
             <span className="sidebar-link-arrow">→</span>
           </Link>
           <Link
