@@ -678,9 +678,7 @@
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
+  gap: 6px;
   cursor: pointer;
 }
 
@@ -698,8 +696,8 @@
 
 .basket-count2 {
   position: absolute;
-  top: -4px;
-  right: -4px;
+  top: -8px;
+  right: -8px;
   background: linear-gradient(135deg, #11688ab7, #3289ac86);
   color: #f4f4f4;
   font-size: 15px;
@@ -768,4 +766,42 @@
   object-fit: contain;
   margin: 0;
   padding: 0;
+}
+
+
+
+.basket-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #114D64;
+  letter-spacing: -0.2px;
+  transition: color 0.15s ease;
+  opacity: 0.7;
+  position: relative;
+  z-index: 1;
+}
+
+.basket-icon-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+
+@media (max-width: 768px) {
+  .basket-label {
+    display: none;
+  }
+}
+
+
+@media (max-width: 886px) {
+  .menu-toggle {
+    display: flex !important;
+  }
+
+  .desktop-nav {
+    display: none !important;
+  }
 }

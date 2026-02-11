@@ -146,6 +146,8 @@ function Header() {
 
             <Link to="/basket" className="basket-link">
               <div className="basket-icon-wrapper">
+                <span className="basket-label">კალათა</span>
+
                 <svg
                   className="basket-icon"
                   viewBox="0 0 24 24"
