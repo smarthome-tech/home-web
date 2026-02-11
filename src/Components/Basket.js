@@ -75,7 +75,7 @@ function Basket() {
     ).join('\n');
 
     const totalMessage = `\n\nსულ: ₾${totalPrice.toFixed(2)}`;
-    const whatsappUrl = `https://wa.me/995555123456?text=${encodeURIComponent('შეკვეთა:\n\n' + orderMessage + totalMessage)}`;
+    const whatsappUrl = `https://wa.me/995555802060?text=${encodeURIComponent('შეკვეთა:\n\n' + orderMessage + totalMessage)}`;
 
     window.open(whatsappUrl, '_blank');
   };
@@ -86,7 +86,7 @@ function Basket() {
   };
 
   const handlePhoneCall = () => {
-    window.location.href = 'tel:+995555123456';
+    window.location.href = 'tel:+995555802060';
   };
 
   if (basketItems.length === 0) {
