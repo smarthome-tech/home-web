@@ -579,3 +579,14 @@
   border: 0.5px solid #474747;
   color: black;
 }
+
+.form-order-btn {
+  border: 0.5px solid #474747;
+  color: black;
+  background: #ffffff;
+}
+
+.form-order-btn:hover {
+  background: #f5f5f7;
+  border-color: #b8b8bd;
+}
