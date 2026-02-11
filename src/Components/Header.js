@@ -90,11 +90,7 @@ function Header() {
 
         <div className="header-container">
           <div className="header-left">
-            <div className="decorative-dots">
-              <span className="dot"></span>
-              <span className="dot"></span>
-              <span className="dot"></span>
-            </div>
+
             <Link to="/" className="logo" onClick={handleLogoClick}>
               {currentLogo && (
                 <img
