@@ -1,7 +1,7 @@
 {
   "name": "smart-web",
   "version": "0.1.0",
-  "homepage": "https://smarthome-tech.github.io/home-web",
+  "homepage": "https://davson.ge",
   "private": true,
   "dependencies": {
     "@formspree/react": "^3.0.0",
