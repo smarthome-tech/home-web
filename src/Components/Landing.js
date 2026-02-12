@@ -4,7 +4,7 @@ import LandingProducts from './LandingProducts';
 import Trust from './Trust';
 import '../Styles/Landing.css';
 
-function Landing() {
+function Landing({ resetSignal }) {
   const navigate = useNavigate();
   const [landingTitle, setLandingTitle] = useState("");
   const [landingDescription, setLandingDescription] = useState("");
@@ -13,38 +13,22 @@ function Landing() {
 
   const API_BASE_URL = "https://home-back-3lqs.onrender.com";
 
-  // Scroll to top when component mounts - UPDATED
   useEffect(() => {
     window.scrollTo(0, 0);
-
-    // Also try with requestAnimationFrame
-    requestAnimationFrame(() => {
-      window.scrollTo(0, 0);
-    });
-
-    // And with a small delay
-    setTimeout(() => {
-      window.scrollTo(0, 0);
-    }, 0);
+    requestAnimationFrame(() => { window.scrollTo(0, 0); });
+    setTimeout(() => { window.scrollTo(0, 0); }, 0);
   }, []);
 
   useEffect(() => {
-    // Load landing settings from backend
     const loadLandingSettings = async () => {
       try {
         const res = await fetch(`${API_BASE_URL}/settings`);
         if (res.ok) {
           const data = await res.json();
           const settings = data.settings;
-          if (settings.landingTitle) {
-            setLandingTitle(settings.landingTitle);
-          }
-          if (settings.landingDescription) {
-            setLandingDescription(settings.landingDescription);
-          }
-          if (settings.landingBanner) {
-            setLandingBanner(settings.landingBanner);
-          }
+          if (settings.landingTitle) setLandingTitle(settings.landingTitle);
+          if (settings.landingDescription) setLandingDescription(settings.landingDescription);
+          if (settings.landingBanner) setLandingBanner(settings.landingBanner);
         }
       } catch (err) {
         console.error("Error loading landing settings:", err);
@@ -56,11 +40,8 @@ function Landing() {
   }, []);
 
   useEffect(() => {
-    // Generate noise background
     const generateNoise = (opacity) => {
-      if (!!!document.createElement('canvas').getContext) {
-        return false;
-      }
+      if (!!!document.createElement('canvas').getContext) return false;
       const canvas = document.createElement("canvas");
       const ctx = canvas.getContext('2d');
       canvas.width = 200;
@@ -135,7 +116,7 @@ function Landing() {
           </div>
         </div>
       </div>
-      <LandingProducts />
+      <LandingProducts resetSignal={resetSignal} />
       <Trust />
     </>
   );

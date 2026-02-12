@@ -13,40 +13,19 @@ import Services from './Components/Services';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
-
   React.useEffect(() => {
-    // Scroll immediately
     document.documentElement.scrollTop = 0;
     document.body.scrollTop = 0;
-
-    // Multiple backup attempts
     window.scrollTo(0, 0);
-
     requestAnimationFrame(() => {
       document.documentElement.scrollTop = 0;
       document.body.scrollTop = 0;
       window.scrollTo(0, 0);
     });
-
-    setTimeout(() => {
-      document.documentElement.scrollTop = 0;
-      document.body.scrollTop = 0;
-      window.scrollTo(0, 0);
-    }, 0);
-
-    setTimeout(() => {
-      document.documentElement.scrollTop = 0;
-      document.body.scrollTop = 0;
-      window.scrollTo(0, 0);
-    }, 10);
-
-    setTimeout(() => {
-      document.documentElement.scrollTop = 0;
-      document.body.scrollTop = 0;
-      window.scrollTo(0, 0);
-    }, 50);
+    setTimeout(() => { window.scrollTo(0, 0); }, 0);
+    setTimeout(() => { window.scrollTo(0, 0); }, 10);
+    setTimeout(() => { window.scrollTo(0, 0); }, 50);
   }, [pathname]);
-
   return null;
 }
 

@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { slide as Menu } from 'react-burger-menu'
 import '../Styles/Header.css'
 
-function Header() {
+function Header({ onFilterReset }) {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [basketCount, setBasketCount] = useState(0)
@@ -69,18 +69,37 @@ function Header() {
 
   const handleLogoClick = (e) => {
     e.preventDefault()
+    window.dispatchEvent(new CustomEvent('clearFilter'))
     navigate('/')
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   const handleHomeClick = (e) => {
     e.preventDefault()
+    window.dispatchEvent(new CustomEvent('clearFilter'))
     navigate('/')
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const handleProductsClick = (e) => {
+    e.preventDefault()
+    window.dispatchEvent(new CustomEvent('clearFilter'))
+    navigate('/products')
   }
 
   const handleSidebarHomeClick = (e) => {
     e.preventDefault()
     closeMenu()
+    window.dispatchEvent(new CustomEvent('clearFilter'))
     navigate('/')
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const handleSidebarProductsClick = (e) => {
+    e.preventDefault()
+    closeMenu()
+    window.dispatchEvent(new CustomEvent('clearFilter'))
+    navigate('/products')
   }
 
   return (
@@ -90,7 +109,6 @@ function Header() {
 
         <div className="header-container">
           <div className="header-left">
-
             <Link to="/" className="logo" onClick={handleLogoClick}>
               {currentLogo && (
                 <img
@@ -113,6 +131,7 @@ function Header() {
             </Link>
             <Link
               to="/products"
+              onClick={handleProductsClick}
               className={`nav-link ${location.pathname === '/products' ? 'active' : ''}`}
             >
               <span className="nav-text">პროდუქტები</span>
@@ -147,7 +166,6 @@ function Header() {
             <Link to="/basket" className="basket-link">
               <div className="basket-icon-wrapper">
                 <span className="basket-label">კალათა</span>
-
                 <svg
                   className="basket-icon"
                   viewBox="0 0 24 24"
@@ -236,7 +254,7 @@ function Header() {
           <Link
             to="/products"
             className={`sidebar-link ${location.pathname === '/products' ? 'active' : ''}`}
-            onClick={closeMenu}
+            onClick={handleSidebarProductsClick}
           >
             <span className="sidebar-link-text">პროდუქტები</span>
             <span className="sidebar-link-arrow">→</span>

@@ -4,7 +4,7 @@ import Filter from './Filter';
 import '../Styles/Products.css';
 import Trust from './Trust';
 
-function Products() {
+function Products({ resetSignal }) {
   const [products, setProducts] = useState([]);
   const [allProducts, setAllProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -18,7 +18,6 @@ function Products() {
 
   const API_BASE_URL = "https://home-back-3lqs.onrender.com";
 
-  // Scroll to top when component mounts
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -43,7 +42,6 @@ function Products() {
       const productList = data.products || [];
       setAllProducts(productList);
       setFilteredProducts(productList);
-
       const pages = Math.ceil(productList.length / productsPerPage);
       setTotalPages(pages);
     } catch (err) {
@@ -58,24 +56,20 @@ function Products() {
   const paginateProducts = () => {
     const startIndex = (currentPage - 1) * productsPerPage;
     const endIndex = startIndex + productsPerPage;
-    const paginatedProducts = filteredProducts.slice(startIndex, endIndex);
-    setProducts(paginatedProducts);
+    setProducts(filteredProducts.slice(startIndex, endIndex));
   };
 
   const handleFilterChange = (category) => {
     setSelectedCategory(category);
-
     if (category === 'all') {
       setFilteredProducts(allProducts);
-      const pages = Math.ceil(allProducts.length / productsPerPage);
-      setTotalPages(pages);
+      setTotalPages(Math.ceil(allProducts.length / productsPerPage));
     } else {
       const filtered = allProducts.filter(
         product => product.classifications === category
       );
       setFilteredProducts(filtered);
-      const pages = Math.ceil(filtered.length / productsPerPage);
-      setTotalPages(pages);
+      setTotalPages(Math.ceil(filtered.length / productsPerPage));
     }
   };
 
@@ -104,65 +98,39 @@ function Products() {
 
   const handleAddToCart = (e, product) => {
     e.stopPropagation();
-
-    // Get existing basket from localStorage
     const existingBasket = JSON.parse(localStorage.getItem('basket') || '[]');
-
-    // Check if product already exists in basket
     const existingProductIndex = existingBasket.findIndex(
       item => item._id === product._id
     );
-
     if (existingProductIndex !== -1) {
-      // If product exists, increase quantity
       existingBasket[existingProductIndex].quantity =
         (existingBasket[existingProductIndex].quantity || 1) + 1;
     } else {
-      // If product doesn't exist, add it with quantity 1
-      existingBasket.push({
-        ...product,
-        quantity: 1
-      });
+      existingBasket.push({ ...product, quantity: 1 });
     }
-
-    // Save updated basket to localStorage
     localStorage.setItem('basket', JSON.stringify(existingBasket));
-
-    // Dispatch custom event to update header basket count
     const totalCount = existingBasket.reduce(
-      (total, item) => total + (item.quantity || 1),
-      0
+      (total, item) => total + (item.quantity || 1), 0
     );
-
     window.dispatchEvent(new CustomEvent('basketUpdate', {
       detail: { count: totalCount }
     }));
-
-    // Optional: Show a brief success message
-    console.log('Product added to basket:', product.name);
   };
 
   const getPageNumbers = () => {
     const pageNumbers = [];
     const maxVisible = 5;
-
     if (totalPages <= maxVisible) {
-      for (let i = 1; i <= totalPages; i++) {
-        pageNumbers.push(i);
-      }
+      for (let i = 1; i <= totalPages; i++) pageNumbers.push(i);
     } else {
       if (currentPage <= 3) {
-        for (let i = 1; i <= 4; i++) {
-          pageNumbers.push(i);
-        }
+        for (let i = 1; i <= 4; i++) pageNumbers.push(i);
         pageNumbers.push('...');
         pageNumbers.push(totalPages);
       } else if (currentPage >= totalPages - 2) {
         pageNumbers.push(1);
         pageNumbers.push('...');
-        for (let i = totalPages - 3; i <= totalPages; i++) {
-          pageNumbers.push(i);
-        }
+        for (let i = totalPages - 3; i <= totalPages; i++) pageNumbers.push(i);
       } else {
         pageNumbers.push(1);
         pageNumbers.push('...');
@@ -173,14 +141,13 @@ function Products() {
         pageNumbers.push(totalPages);
       }
     }
-
     return pageNumbers;
   };
 
   if (loading) {
     return (
       <>
-        <Filter products={[]} onFilterChange={() => { }} />
+        <Filter products={[]} onFilterChange={() => { }} resetSignal={resetSignal} />
         <div className="products-page-container">
           <div className="products-page-content">
             <div className="products-page-grid">
@@ -209,6 +176,7 @@ function Products() {
       <Filter
         products={allProducts}
         onFilterChange={handleFilterChange}
+        resetSignal={resetSignal}
       />
 
       <div className="products-page-container">
@@ -236,12 +204,9 @@ function Products() {
                     />
                   )}
                 </div>
-
                 <div className="product-info">
                   <h3 className="product-name">{product.name}</h3>
-
                   <p className="product-price">₾{product.price?.toFixed(2)}</p>
-
                   <div className="product-actions">
                     <button
                       className="add-to-cart-btn"
@@ -249,7 +214,6 @@ function Products() {
                     >
                       <span className="btn-text">კალათაში დამატება</span>
                     </button>
-
                     <button
                       className="details-btn icon-wrapper"
                       onClick={() => handleViewDetails(product._id)}
@@ -274,7 +238,6 @@ function Products() {
                   <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </button>
-
               <div className="pagination-numbers">
                 {getPageNumbers().map((pageNum, index) => (
                   pageNum === '...' ? (
@@ -290,7 +253,6 @@ function Products() {
                   )
                 ))}
               </div>
-
               <button
                 className="pagination-arrow"
                 onClick={handleNextPage}
@@ -312,9 +274,7 @@ function Products() {
             </div>
           )}
         </div>
-
       </div>
-      {/* ADD TRUST COMPONENT HERE */}
       <Trust />
     </>
   );

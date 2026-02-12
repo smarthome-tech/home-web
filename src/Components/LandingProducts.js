@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Filter from './Filter';
 import '../Styles/LandingProducts.css';
 
-function LandingProducts() {
+function LandingProducts({ resetSignal }) {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -13,24 +13,15 @@ function LandingProducts() {
   const productsTopRef = useRef(null);
 
   const API_BASE_URL = "https://home-back-3lqs.onrender.com";
-  const PRODUCTS_PER_PAGE = 8; // 2 rows × 4 columns
+  const PRODUCTS_PER_PAGE = 8;
 
-  // 🆕 SORTING FUNCTION
   const sortProductsByNumeration = (productsList) => {
     return [...productsList].sort((a, b) => {
-      // If both have numeration, sort by numeration ascending
       if (a.numeration !== undefined && b.numeration !== undefined) {
         return a.numeration - b.numeration;
       }
-      // If only 'a' has numeration, it comes first
-      if (a.numeration !== undefined && b.numeration === undefined) {
-        return -1;
-      }
-      // If only 'b' has numeration, it comes first
-      if (a.numeration === undefined && b.numeration !== undefined) {
-        return 1;
-      }
-      // If neither has numeration, maintain original order (or sort by upload date)
+      if (a.numeration !== undefined && b.numeration === undefined) return -1;
+      if (a.numeration === undefined && b.numeration !== undefined) return 1;
       return new Date(b.uploadDate) - new Date(a.uploadDate);
     });
   };
@@ -41,10 +32,7 @@ function LandingProducts() {
         const res = await fetch(`${API_BASE_URL}/products`);
         const data = await res.json();
         const productList = data.products || [];
-
-        // 🆕 SORT PRODUCTS IMMEDIATELY AFTER FETCHING
         const sortedProducts = sortProductsByNumeration(productList);
-
         setProducts(sortedProducts);
         setFilteredProducts(sortedProducts);
       } catch (err) {
@@ -58,17 +46,12 @@ function LandingProducts() {
 
     fetchProducts();
 
-    // Generate noise texture for product cards
     const generateNoise = (opacity = 0.12) => {
-      if (!document.createElement('canvas').getContext) {
-        return false;
-      }
-
+      if (!document.createElement('canvas').getContext) return false;
       const canvas = document.createElement("canvas");
       const ctx = canvas.getContext('2d');
       canvas.width = 200;
       canvas.height = 200;
-
       for (let x = 0; x < canvas.width; x++) {
         for (let y = 0; y < canvas.height; y++) {
           const number = Math.floor(Math.random() * 60);
@@ -76,29 +59,23 @@ function LandingProducts() {
           ctx.fillRect(x, y, 1, 1);
         }
       }
-
       document.documentElement.style.setProperty(
         '--noise-texture',
         `url(${canvas.toDataURL("image/png")})`
       );
     };
-
     generateNoise();
   }, []);
 
-  // Handle filter changes
   const handleFilterChange = (category) => {
     setSelectedCategory(category);
     setCurrentPage(1);
-
     if (category === 'all') {
-      // 🆕 SORT WHEN SHOWING ALL
       setFilteredProducts(sortProductsByNumeration(products));
     } else {
       const filtered = products.filter(
         product => product.classifications === category
       );
-      // 🆕 SORT FILTERED PRODUCTS TOO
       setFilteredProducts(sortProductsByNumeration(filtered));
     }
   };
@@ -109,37 +86,25 @@ function LandingProducts() {
 
   const handleAddToCart = (e, product) => {
     e.stopPropagation();
-
     const existingBasket = JSON.parse(localStorage.getItem('basket') || '[]');
     const existingProductIndex = existingBasket.findIndex(
       item => item._id === product._id
     );
-
     if (existingProductIndex !== -1) {
       existingBasket[existingProductIndex].quantity =
         (existingBasket[existingProductIndex].quantity || 1) + 1;
     } else {
-      existingBasket.push({
-        ...product,
-        quantity: 1
-      });
+      existingBasket.push({ ...product, quantity: 1 });
     }
-
     localStorage.setItem('basket', JSON.stringify(existingBasket));
-
     const totalCount = existingBasket.reduce(
-      (total, item) => total + (item.quantity || 1),
-      0
+      (total, item) => total + (item.quantity || 1), 0
     );
-
     window.dispatchEvent(new CustomEvent('basketUpdate', {
       detail: { count: totalCount }
     }));
-
-    console.log('Product added to basket:', product.name);
   };
 
-  // Pagination
   const totalPages = Math.ceil(filteredProducts.length / PRODUCTS_PER_PAGE);
   const indexOfLastProduct = currentPage * PRODUCTS_PER_PAGE;
   const indexOfFirstProduct = indexOfLastProduct - PRODUCTS_PER_PAGE;
@@ -153,24 +118,17 @@ function LandingProducts() {
   };
 
   const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      handlePageChange(currentPage + 1);
-    }
+    if (currentPage < totalPages) handlePageChange(currentPage + 1);
   };
 
   const handlePrevPage = () => {
-    if (currentPage > 1) {
-      handlePageChange(currentPage - 1);
-    }
+    if (currentPage > 1) handlePageChange(currentPage - 1);
   };
 
   if (loading) {
     return (
       <>
-        <Filter
-          products={[]}
-          onFilterChange={() => { }}
-        />
+        <Filter products={[]} onFilterChange={() => { }} resetSignal={resetSignal} />
         <div className="products-container">
           <div className="products-content">
             <div className="products-grid">
@@ -199,8 +157,8 @@ function LandingProducts() {
       <Filter
         products={products}
         onFilterChange={handleFilterChange}
+        resetSignal={resetSignal}
       />
-
       <div className="products-container" ref={productsTopRef}>
         <div className="products-content">
           {filteredProducts.length === 0 && !loading && (
@@ -208,7 +166,6 @@ function LandingProducts() {
               <p className="empty-text">პროდუქტი არ მოიძებნა ამ კატეგორიაში</p>
             </div>
           )}
-
           <div className="products-grid">
             {currentProducts.map((product) => (
               <div
@@ -217,7 +174,6 @@ function LandingProducts() {
                 onClick={() => handleViewDetails(product._id)}
               >
                 <div className="card-noise-overlay"></div>
-
                 <div className="product-image-container">
                   {product.mainImage && (
                     <img
@@ -228,12 +184,9 @@ function LandingProducts() {
                     />
                   )}
                 </div>
-
                 <div className="product-info">
                   <h3 className="product-name">{product.name}</h3>
-
                   <p className="product-price">₾{product.price?.toFixed(2)}</p>
-
                   <div className="product-actions">
                     <button
                       className="add-to-cart-btn"
@@ -241,7 +194,6 @@ function LandingProducts() {
                     >
                       <span className="btn-text">კალათაში დამატება</span>
                     </button>
-
                     <button
                       className="details-btn icon-wrapper"
                       onClick={() => handleViewDetails(product._id)}
@@ -264,7 +216,6 @@ function LandingProducts() {
               >
                 ← წინა
               </button>
-
               <div className="pagination-numbers">
                 {[...Array(totalPages)].map((_, index) => (
                   <button
@@ -276,7 +227,6 @@ function LandingProducts() {
                   </button>
                 ))}
               </div>
-
               <button
                 className="pagination-btn"
                 onClick={handleNextPage}

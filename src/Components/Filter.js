@@ -3,19 +3,27 @@ import '../Styles/Filter.css';
 
 function Filter({ products, onFilterChange }) {
   const [categories, setCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
   useEffect(() => {
-    // Extract unique categories from products
     if (products && products.length > 0) {
       const uniqueCategories = [...new Set(
         products
           .map(product => product.classifications)
-          .filter(Boolean) // Remove null/undefined
+          .filter(Boolean)
       )];
       setCategories(uniqueCategories);
     }
   }, [products]);
+
+  useEffect(() => {
+    const handleClearFilter = () => {
+      setSelectedCategory(null);
+      onFilterChange('all');
+    };
+    window.addEventListener('clearFilter', handleClearFilter);
+    return () => window.removeEventListener('clearFilter', handleClearFilter);
+  }, [onFilterChange]);
 
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
@@ -26,18 +34,6 @@ function Filter({ products, onFilterChange }) {
     <div className="filter-container">
       <div className="filter-content">
         <div className="filter-chips-wrapper">
-          {/* All Categories Chip */}
-          <button
-            className={`filter-chip ${selectedCategory === 'all' ? 'active' : ''}`}
-            onClick={() => handleCategoryClick('all')}
-          >
-            <span className="chip-text">ყველა</span>
-            {selectedCategory === 'all' && (
-              <span className="chip-indicator"></span>
-            )}
-          </button>
-
-          {/* Category Chips */}
           {categories.map((category) => (
             <button
               key={category}
