@@ -1,8 +1,9 @@
 import React from 'react';
 import '../Styles/Contact.css';
 
-const facebook = process.env.PUBLIC_URL + '/f.png';
+
 const whatsapp = process.env.PUBLIC_URL + '/w.png';
+const facebook = process.env.PUBLIC_URL + '/messenger.png';
 
 function Contact() {
   return (
@@ -53,7 +54,7 @@ function Contact() {
 
           {/* Facebook */}
           <a
-            href="https://www.facebook.com/share/18Jd7JF2ow/?mibextid=wwXIfr"
+            href="https://m.me/61585859816614"
             target="_blank"
             rel="noopener noreferrer"
             className="contact-card clickable"
@@ -61,7 +62,7 @@ function Contact() {
             <div className="contact-icon">
               <img src={facebook} alt="Facebook" className="contact-icon-img" />
             </div>
-            <h3 className="contact-card-title">Facebook</h3>
+            <h3 className="contact-card-title">Messenger</h3>
           </a>
         </div>
       </div>

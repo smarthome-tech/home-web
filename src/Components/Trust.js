@@ -1,7 +1,10 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import '../Styles/Trust.css'
 
 function Trust() {
+    const navigate = useNavigate()
+
     const benefits = [
         {
             icon: (
@@ -39,7 +42,7 @@ function Trust() {
             title: "გარანტია",
             description: "2 წელი"
         }
-    ];
+    ]
 
     return (
         <div className="trust-container">
@@ -47,7 +50,12 @@ function Trust() {
                 <h2 className="trust-title">სერვისები</h2>
                 <div className="trust-grid">
                     {benefits.map((benefit, index) => (
-                        <div key={index} className="trust-card">
+                        <div
+                            key={index}
+                            className="trust-card"
+                            onClick={() => navigate('/services')}
+                            style={{ cursor: 'pointer' }}
+                        >
                             <div className="trust-icon">
                                 {benefit.icon}
                             </div>
