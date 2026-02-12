@@ -15,14 +15,38 @@ function LandingProducts() {
   const API_BASE_URL = "https://home-back-3lqs.onrender.com";
   const PRODUCTS_PER_PAGE = 8; // 2 rows × 4 columns
 
+  // 🆕 SORTING FUNCTION
+  const sortProductsByNumeration = (productsList) => {
+    return [...productsList].sort((a, b) => {
+      // If both have numeration, sort by numeration ascending
+      if (a.numeration !== undefined && b.numeration !== undefined) {
+        return a.numeration - b.numeration;
+      }
+      // If only 'a' has numeration, it comes first
+      if (a.numeration !== undefined && b.numeration === undefined) {
+        return -1;
+      }
+      // If only 'b' has numeration, it comes first
+      if (a.numeration === undefined && b.numeration !== undefined) {
+        return 1;
+      }
+      // If neither has numeration, maintain original order (or sort by upload date)
+      return new Date(b.uploadDate) - new Date(a.uploadDate);
+    });
+  };
+
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const res = await fetch(`${API_BASE_URL}/products`);
         const data = await res.json();
         const productList = data.products || [];
-        setProducts(productList);
-        setFilteredProducts(productList);
+
+        // 🆕 SORT PRODUCTS IMMEDIATELY AFTER FETCHING
+        const sortedProducts = sortProductsByNumeration(productList);
+
+        setProducts(sortedProducts);
+        setFilteredProducts(sortedProducts);
       } catch (err) {
         console.error("Error loading products:", err);
         setProducts([]);
@@ -68,12 +92,14 @@ function LandingProducts() {
     setCurrentPage(1);
 
     if (category === 'all') {
-      setFilteredProducts(products);
+      // 🆕 SORT WHEN SHOWING ALL
+      setFilteredProducts(sortProductsByNumeration(products));
     } else {
       const filtered = products.filter(
         product => product.classifications === category
       );
-      setFilteredProducts(filtered);
+      // 🆕 SORT FILTERED PRODUCTS TOO
+      setFilteredProducts(sortProductsByNumeration(filtered));
     }
   };
 
