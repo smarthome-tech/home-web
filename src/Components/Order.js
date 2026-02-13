@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useForm, ValidationError } from '@formspree/react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import '../Styles/Order.css';
 
 function Order() {
-    const [state, handleSubmit] = useForm("xdaleawb");
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -19,6 +17,10 @@ function Order() {
         address: ''
     });
 
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isSuccess, setIsSuccess] = useState(false);
+    const [error, setError] = useState('');
+
     // Scroll to top when component mounts
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -26,14 +28,14 @@ function Order() {
 
     // Scroll to top when success state changes
     useEffect(() => {
-        if (state.succeeded) {
+        if (isSuccess) {
             window.scrollTo(0, 0);
         }
-    }, [state.succeeded]);
+    }, [isSuccess]);
 
     // Clear basket when order is successfully submitted
     useEffect(() => {
-        if (state.succeeded && basketItems && basketItems.length > 0) {
+        if (isSuccess && basketItems && basketItems.length > 0) {
             // Clear the basket from localStorage
             localStorage.setItem('basket', JSON.stringify([]));
 
@@ -42,7 +44,7 @@ function Order() {
                 detail: { count: 0 }
             }));
         }
-    }, [state.succeeded, basketItems]);
+    }, [isSuccess, basketItems]);
 
     const handleChange = (e) => {
         setFormData({
@@ -63,7 +65,48 @@ function Order() {
         return '';
     };
 
-    if (state.succeeded) {
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setIsSubmitting(true);
+        setError('');
+
+        const formDataToSend = new FormData();
+        formDataToSend.append('access_key', '260d40d9-6646-46bb-8cea-b1809f32ad58');
+        formDataToSend.append('name', formData.name);
+        formDataToSend.append('phone', formData.phone);
+        formDataToSend.append('address', formData.address);
+        formDataToSend.append('order_details', getOrderDetails());
+        formDataToSend.append('subject', 'ახალი შეკვეთა - Davson');
+        formDataToSend.append('from_name', 'Davson Website');
+
+        try {
+            const response = await fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                body: formDataToSend
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                setIsSuccess(true);
+                // Reset form
+                setFormData({
+                    name: '',
+                    phone: '',
+                    address: ''
+                });
+            } else {
+                setError('დაფიქსირდა შეცდომა. გთხოვთ სცადოთ თავიდან.');
+            }
+        } catch (err) {
+            setError('დაფიქსირდა შეცდომა. გთხოვთ სცადოთ თავიდან.');
+            console.error('Submit error:', err);
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
+    if (isSuccess) {
         return (
             <div className="order-success">
                 <div className="success-icon">✓</div>
@@ -131,13 +174,6 @@ function Order() {
                 )}
 
                 <form onSubmit={handleSubmit} className="order-form">
-                    {/* Hidden field for order details */}
-                    <input
-                        type="hidden"
-                        name="order_details"
-                        value={getOrderDetails()}
-                    />
-
                     <div className="form-group">
                         <label htmlFor="name">სახელი და გვარი *</label>
                         <input
@@ -147,12 +183,7 @@ function Order() {
                             value={formData.name}
                             onChange={handleChange}
                             required
-                            placeholder="..."
-                        />
-                        <ValidationError
-                            prefix="სახელი"
-                            field="name"
-                            errors={state.errors}
+                            placeholder="თქვენი სახელი და გვარი"
                         />
                     </div>
 
@@ -167,11 +198,6 @@ function Order() {
                             required
                             placeholder="+995 5XX XX XX XX"
                         />
-                        <ValidationError
-                            prefix="ტელეფონი"
-                            field="phone"
-                            errors={state.errors}
-                        />
                     </div>
 
                     <div className="form-group">
@@ -185,24 +211,19 @@ function Order() {
                             required
                             placeholder="ქალაქი, ქუჩა, შენობა"
                         />
-                        <ValidationError
-                            prefix="მისამართი"
-                            field="address"
-                            errors={state.errors}
-                        />
                     </div>
 
                     <button
                         type="submit"
-                        disabled={state.submitting}
+                        disabled={isSubmitting}
                         className="submit-order-btn"
                     >
-                        {state.submitting ? 'იგზავნება...' : 'შეკვეთის გაგზავნა'}
+                        {isSubmitting ? 'იგზავნება...' : 'შეკვეთის გაგზავნა'}
                     </button>
 
-                    {state.errors && state.errors.length > 0 && (
+                    {error && (
                         <div className="form-error">
-                            დაფიქსირდა შეცდომა. გთხოვთ სცადოთ თავიდან.
+                            {error}
                         </div>
                     )}
                 </form>
