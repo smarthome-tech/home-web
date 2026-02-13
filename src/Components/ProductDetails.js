@@ -13,7 +13,7 @@ function ProductDetails() {
   const API_BASE_URL = "https://home-back-3lqs.onrender.com";
 
   // Store owner contact info
-  const WHATSAPP_NUMBER = "+995555802060"; // Replace with actual number
+  const WHATSAPP_NUMBER = "+995555802060";
   const PHONE_NUMBER = "+995555802060";
 
   useEffect(() => {
@@ -38,6 +38,145 @@ function ProductDetails() {
 
     fetchProduct();
   }, [id]);
+
+  // Update meta tags when product loads
+  useEffect(() => {
+    if (product && !loading) {
+      const pageTitle = `${product.name} - Davson | ₾${product.price?.toFixed(2)}`;
+      const pageDescription = product.description 
+        ? (product.description.length > 160 
+            ? product.description.substring(0, 157) + '...' 
+            : product.description)
+        : `${product.name} - ფასი: ₾${product.price?.toFixed(2)}. შეიძინეთ Davson-დან ${product.classifications ? `- ${product.classifications}` : ''}`;
+
+      // Update title
+      document.title = pageTitle;
+
+      // Update meta description
+      let metaDescription = document.querySelector('meta[name="description"]');
+      if (metaDescription) {
+        metaDescription.setAttribute('content', pageDescription);
+      } else {
+        metaDescription = document.createElement('meta');
+        metaDescription.name = 'description';
+        metaDescription.content = pageDescription;
+        document.head.appendChild(metaDescription);
+      }
+
+      // Update Open Graph title
+      let ogTitle = document.querySelector('meta[property="og:title"]');
+      if (ogTitle) {
+        ogTitle.setAttribute('content', pageTitle);
+      } else {
+        ogTitle = document.createElement('meta');
+        ogTitle.setAttribute('property', 'og:title');
+        ogTitle.content = pageTitle;
+        document.head.appendChild(ogTitle);
+      }
+
+      // Update Open Graph description
+      let ogDescription = document.querySelector('meta[property="og:description"]');
+      if (ogDescription) {
+        ogDescription.setAttribute('content', pageDescription);
+      } else {
+        ogDescription = document.createElement('meta');
+        ogDescription.setAttribute('property', 'og:description');
+        ogDescription.content = pageDescription;
+        document.head.appendChild(ogDescription);
+      }
+
+      // Update Open Graph URL
+      let ogUrl = document.querySelector('meta[property="og:url"]');
+      if (ogUrl) {
+        ogUrl.setAttribute('content', `https://damson.ge/#/product/${id}`);
+      } else {
+        ogUrl = document.createElement('meta');
+        ogUrl.setAttribute('property', 'og:url');
+        ogUrl.content = `https://damson.ge/#/product/${id}`;
+        document.head.appendChild(ogUrl);
+      }
+
+      // Update Open Graph image with product main image
+      if (product.mainImage) {
+        let ogImage = document.querySelector('meta[property="og:image"]');
+        if (ogImage) {
+          ogImage.setAttribute('content', product.mainImage);
+        } else {
+          ogImage = document.createElement('meta');
+          ogImage.setAttribute('property', 'og:image');
+          ogImage.content = product.mainImage;
+          document.head.appendChild(ogImage);
+        }
+      }
+
+      // Update Open Graph type to product
+      let ogType = document.querySelector('meta[property="og:type"]');
+      if (ogType) {
+        ogType.setAttribute('content', 'product');
+      } else {
+        ogType = document.createElement('meta');
+        ogType.setAttribute('property', 'og:type');
+        ogType.content = 'product';
+        document.head.appendChild(ogType);
+      }
+
+      // Add product-specific Open Graph tags
+      let ogPrice = document.querySelector('meta[property="product:price:amount"]');
+      if (ogPrice) {
+        ogPrice.setAttribute('content', product.price?.toFixed(2));
+      } else {
+        ogPrice = document.createElement('meta');
+        ogPrice.setAttribute('property', 'product:price:amount');
+        ogPrice.content = product.price?.toFixed(2);
+        document.head.appendChild(ogPrice);
+      }
+
+      let ogCurrency = document.querySelector('meta[property="product:price:currency"]');
+      if (ogCurrency) {
+        ogCurrency.setAttribute('content', 'GEL');
+      } else {
+        ogCurrency = document.createElement('meta');
+        ogCurrency.setAttribute('property', 'product:price:currency');
+        ogCurrency.content = 'GEL';
+        document.head.appendChild(ogCurrency);
+      }
+
+      // Update Twitter Card title
+      let twitterTitle = document.querySelector('meta[name="twitter:title"]');
+      if (twitterTitle) {
+        twitterTitle.setAttribute('content', pageTitle);
+      } else {
+        twitterTitle = document.createElement('meta');
+        twitterTitle.name = 'twitter:title';
+        twitterTitle.content = pageTitle;
+        document.head.appendChild(twitterTitle);
+      }
+
+      // Update Twitter Card description
+      let twitterDescription = document.querySelector('meta[name="twitter:description"]');
+      if (twitterDescription) {
+        twitterDescription.setAttribute('content', pageDescription);
+      } else {
+        twitterDescription = document.createElement('meta');
+        twitterDescription.name = 'twitter:description';
+        twitterDescription.content = pageDescription;
+        document.head.appendChild(twitterDescription);
+      }
+
+      // Update Twitter Card image
+      if (product.mainImage) {
+        let twitterImage = document.querySelector('meta[name="twitter:image"]');
+        if (twitterImage) {
+          twitterImage.setAttribute('content', product.mainImage);
+        } else {
+          twitterImage = document.createElement('meta');
+          twitterImage.name = 'twitter:image';
+          twitterImage.content = product.mainImage;
+          document.head.appendChild(twitterImage);
+        }
+      }
+    }
+  }, [product, loading, id]);
 
   const handleAddToCart = () => {
     if (!product) return;

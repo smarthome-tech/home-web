@@ -18,6 +18,17 @@ function Products({ resetSignal }) {
 
   const API_BASE_URL = "https://home-back-3lqs.onrender.com";
 
+  // Category names mapping for meta tags
+  const categoryNames = {
+    'all': 'ყველა პროდუქტი',
+    'სენსორები': 'სენსორები',
+    'ჭკვიანი საკეტები': 'ჭკვიანი საკეტები',
+    'სიგნალიზაცია': 'სიგნალიზაცია',
+    'ავტომატიზაცია': 'ავტომატიზაცია',
+    'განათება': 'განათება',
+    'კამერები': 'კამერები'
+  };
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -33,6 +44,67 @@ function Products({ resetSignal }) {
   useEffect(() => {
     paginateProducts();
   }, [filteredProducts, currentPage]);
+
+  // Update page title and meta description when category or products change
+  useEffect(() => {
+    const categoryName = categoryNames[selectedCategory] || 'ყველა პროდუქტი';
+    const pageTitle = selectedCategory === 'all' 
+      ? 'პროდუქტები - Davson | ჭკვიანი სახლის სისტემები'
+      : `${categoryName} - Davson | ჭკვიანი სახლის პროდუქტები`;
+    
+    const pageDescription = selectedCategory === 'all'
+      ? `იხილეთ Davson-ის ჭკვიანი სახლის პროდუქტები. ჭკვიანი საკეტები, სიგნალიზაცია, სენსორები, კამერები და სხვა. ${filteredProducts.length} პროდუქტი.`
+      : `${categoryName} Davson-სგან. ხარისხიანი ${categoryName.toLowerCase()} თქვენი სახლისთვის. ${filteredProducts.length} პროდუქტი.`;
+
+    // Update title
+    document.title = pageTitle;
+
+    // Update meta description
+    let metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', pageDescription);
+    } else {
+      metaDescription = document.createElement('meta');
+      metaDescription.name = 'description';
+      metaDescription.content = pageDescription;
+      document.head.appendChild(metaDescription);
+    }
+
+    // Update Open Graph title
+    let ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) {
+      ogTitle.setAttribute('content', pageTitle);
+    } else {
+      ogTitle = document.createElement('meta');
+      ogTitle.setAttribute('property', 'og:title');
+      ogTitle.content = pageTitle;
+      document.head.appendChild(ogTitle);
+    }
+
+    // Update Open Graph description
+    let ogDescription = document.querySelector('meta[property="og:description"]');
+    if (ogDescription) {
+      ogDescription.setAttribute('content', pageDescription);
+    } else {
+      ogDescription = document.createElement('meta');
+      ogDescription.setAttribute('property', 'og:description');
+      ogDescription.content = pageDescription;
+      document.head.appendChild(ogDescription);
+    }
+
+    // Update Open Graph image if products exist
+    if (products.length > 0 && products[0].mainImage) {
+      let ogImage = document.querySelector('meta[property="og:image"]');
+      if (ogImage) {
+        ogImage.setAttribute('content', products[0].mainImage);
+      } else {
+        ogImage = document.createElement('meta');
+        ogImage.setAttribute('property', 'og:image');
+        ogImage.content = products[0].mainImage;
+        document.head.appendChild(ogImage);
+      }
+    }
+  }, [selectedCategory, filteredProducts, products]);
 
   const fetchAllProducts = async () => {
     try {

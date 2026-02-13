@@ -33,6 +33,59 @@ function Order() {
         }
     }, [isSuccess]);
 
+    // Update meta tags
+    useEffect(() => {
+        const pageTitle = 'შეკვეთის გაფორმება - Davson';
+        const pageDescription = 'გაფორმეთ თქვენი შეკვეთა Davson-ში. შეავსეთ ფორმა და ჩვენ დაგიკავშირდებით უმოკლეს დროში.';
+
+        // Update title
+        document.title = pageTitle;
+
+        // Update meta description
+        let metaDescription = document.querySelector('meta[name="description"]');
+        if (metaDescription) {
+            metaDescription.setAttribute('content', pageDescription);
+        } else {
+            metaDescription = document.createElement('meta');
+            metaDescription.name = 'description';
+            metaDescription.content = pageDescription;
+            document.head.appendChild(metaDescription);
+        }
+
+        // Update Open Graph title
+        let ogTitle = document.querySelector('meta[property="og:title"]');
+        if (ogTitle) {
+            ogTitle.setAttribute('content', pageTitle);
+        } else {
+            ogTitle = document.createElement('meta');
+            ogTitle.setAttribute('property', 'og:title');
+            ogTitle.content = pageTitle;
+            document.head.appendChild(ogTitle);
+        }
+
+        // Update Open Graph description
+        let ogDescription = document.querySelector('meta[property="og:description"]');
+        if (ogDescription) {
+            ogDescription.setAttribute('content', pageDescription);
+        } else {
+            ogDescription = document.createElement('meta');
+            ogDescription.setAttribute('property', 'og:description');
+            ogDescription.content = pageDescription;
+            document.head.appendChild(ogDescription);
+        }
+
+        // Block indexing of order page (privacy)
+        let metaRobots = document.querySelector('meta[name="robots"]');
+        if (metaRobots) {
+            metaRobots.setAttribute('content', 'noindex, nofollow');
+        } else {
+            metaRobots = document.createElement('meta');
+            metaRobots.name = 'robots';
+            metaRobots.content = 'noindex, nofollow';
+            document.head.appendChild(metaRobots);
+        }
+    }, []);
+
     // Clear basket when order is successfully submitted
     useEffect(() => {
         if (isSuccess && basketItems && basketItems.length > 0) {
