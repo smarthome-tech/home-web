@@ -168,22 +168,40 @@ function LandingProducts({ resetSignal }) {
           )}
           <div className="products-grid">
             {currentProducts.map((product) => (
-              <div
-                key={product._id}
-                className="product-card"
-                onClick={() => handleViewDetails(product._id)}
-              >
-                <div className="card-noise-overlay"></div>
-                <div className="product-image-container">
-                  {product.mainImage && (
-                    <img
-                      src={product.mainImage}
-                      alt={product.name}
-                      className="product-img"
-                      loading="lazy"
-                    />
-                  )}
-                </div>
+            <div
+  key={product._id}
+  className="product-card"
+  onClick={() => handleViewDetails(product._id)}
+>
+  <div className="card-noise-overlay"></div>
+  {(product.status === 'available' || !product.status) && (
+    <div style={{
+      position: 'absolute',
+      top: '10px',
+      right: '10px',
+      backgroundColor: '#34c759',
+      color: '#fff',
+      fontSize: '11px',
+      fontWeight: '600',
+      padding: '3px 8px',
+      borderRadius: '20px',
+      zIndex: 10,
+    }}>
+      ხელმისაწვდომია
+    </div>
+  )}
+    <div className="product-image-container">
+  {product.mainImage && (
+    <img
+      src={product.mainImage}
+      alt={product.name}
+      className="product-img"
+      loading="lazy"
+    />
+  )}
+  
+  
+</div>
                 <div className="product-info">
                   <h3 className="product-name">{product.name}</h3>
                   <p className="product-price">₾{product.price?.toFixed(2)}</p>

@@ -261,12 +261,28 @@ function Products({ resetSignal }) {
 
           <div className="products-page-grid">
             {products.map((product) => (
-              <div
-                key={product._id}
-                className="product-card"
-                onClick={() => handleViewDetails(product._id)}
-              >
-                <div className="product-image-container">
+             <div
+  key={product._id}
+  className="product-card"
+  onClick={() => handleViewDetails(product._id)}
+>
+  {(product.status === 'available' || !product.status) && (
+    <div style={{
+      position: 'absolute',
+      top: '10px',
+      right: '10px',
+      backgroundColor: '#34c759',
+      color: '#fff',
+      fontSize: '11px',
+      fontWeight: '600',
+      padding: '3px 8px',
+      borderRadius: '20px',
+      zIndex: 10,
+    }}>
+      ხელმისაწვდომია
+    </div>
+  )}
+  <div className="product-image-container">
                   {product.mainImage && (
                     <img
                       src={product.mainImage}

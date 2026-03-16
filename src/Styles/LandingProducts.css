@@ -97,7 +97,7 @@
   height: 366px;
   position: relative;
   background: #fbfbfd;
-  overflow: hidden;
+  overflow: visible;        /* ← change hidden to visible */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -698,4 +698,9 @@
   .skeleton-btn-secondary {
     height: 32px;
   }
+}
+
+
+.product-image-container {
+  position: relative;
 }
