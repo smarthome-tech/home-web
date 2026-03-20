@@ -1,8 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Filter from './Filter';
 import '../Styles/Products.css';
 import Trust from './Trust';
+
+// Move outside component so it's not recreated on every render
+const categoryNames = {
+  'all': 'ყველა პროდუქტი',
+  'სენსორები': 'სენსორები',
+  'ჭკვიანი საკეტები': 'ჭკვიანი საკეტები',
+  'სიგნალიზაცია': 'სიგნალიზაცია',
+  'ავტომატიზაცია': 'ავტომატიზაცია',
+  'განათება': 'განათება',
+  'კამერები': 'კამერები'
+};
 
 function Products({ resetSignal }) {
   const [products, setProducts] = useState([]);
@@ -18,17 +29,6 @@ function Products({ resetSignal }) {
 
   const API_BASE_URL = "https://home-back-3lqs.onrender.com";
 
-  // Category names mapping for meta tags
-  const categoryNames = {
-    'all': 'ყველა პროდუქტი',
-    'სენსორები': 'სენსორები',
-    'ჭკვიანი საკეტები': 'ჭკვიანი საკეტები',
-    'სიგნალიზაცია': 'სიგნალიზაცია',
-    'ავტომატიზაცია': 'ავტომატიზაცია',
-    'განათება': 'განათება',
-    'კამერები': 'კამერები'
-  };
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -41,25 +41,28 @@ function Products({ resetSignal }) {
     setCurrentPage(1);
   }, [selectedCategory]);
 
-  useEffect(() => {
-    paginateProducts();
+  const paginateProducts = useCallback(() => {
+    const startIndex = (currentPage - 1) * productsPerPage;
+    const endIndex = startIndex + productsPerPage;
+    setProducts(filteredProducts.slice(startIndex, endIndex));
   }, [filteredProducts, currentPage]);
 
-  // Update page title and meta description when category or products change
+  useEffect(() => {
+    paginateProducts();
+  }, [filteredProducts, currentPage, paginateProducts]);
+
   useEffect(() => {
     const categoryName = categoryNames[selectedCategory] || 'ყველა პროდუქტი';
-    const pageTitle = selectedCategory === 'all' 
+    const pageTitle = selectedCategory === 'all'
       ? 'პროდუქტები - ჭკვიანი სახლის პროდუქტები - Davson'
       : `${categoryName} - Davson | ჭკვიანი სახლის პროდუქტები`;
-    
+
     const pageDescription = selectedCategory === 'all'
       ? `იხილეთ Davson-ის ჭკვიანი სახლის პროდუქტები. ჭკვიანი საკეტები, სიგნალიზაცია, სენსორები, კამერები და სხვა. ${filteredProducts.length} პროდუქტი.`
       : `${categoryName} Davson-სგან. ხარისხიანი ${categoryName.toLowerCase()} თქვენი სახლისთვის. ${filteredProducts.length} პროდუქტი.`;
 
-    // Update title
     document.title = pageTitle;
 
-    // Update meta description
     let metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
       metaDescription.setAttribute('content', pageDescription);
@@ -70,7 +73,6 @@ function Products({ resetSignal }) {
       document.head.appendChild(metaDescription);
     }
 
-    // Update Open Graph title
     let ogTitle = document.querySelector('meta[property="og:title"]');
     if (ogTitle) {
       ogTitle.setAttribute('content', pageTitle);
@@ -81,7 +83,6 @@ function Products({ resetSignal }) {
       document.head.appendChild(ogTitle);
     }
 
-    // Update Open Graph description
     let ogDescription = document.querySelector('meta[property="og:description"]');
     if (ogDescription) {
       ogDescription.setAttribute('content', pageDescription);
@@ -92,7 +93,6 @@ function Products({ resetSignal }) {
       document.head.appendChild(ogDescription);
     }
 
-    // Update Open Graph image if products exist
     if (products.length > 0 && products[0].mainImage) {
       let ogImage = document.querySelector('meta[property="og:image"]');
       if (ogImage) {
@@ -123,12 +123,6 @@ function Products({ resetSignal }) {
     } finally {
       setLoading(false);
     }
-  };
-
-  const paginateProducts = () => {
-    const startIndex = (currentPage - 1) * productsPerPage;
-    const endIndex = startIndex + productsPerPage;
-    setProducts(filteredProducts.slice(startIndex, endIndex));
   };
 
   const handleFilterChange = (category) => {
@@ -261,28 +255,28 @@ function Products({ resetSignal }) {
 
           <div className="products-page-grid">
             {products.map((product) => (
-             <div
-  key={product._id}
-  className="product-card"
-  onClick={() => handleViewDetails(product._id)}
->
-  {(product.status === 'available' || !product.status) && (
-    <div style={{
-      position: 'absolute',
-      top: '10px',
-      right: '10px',
-      backgroundColor: '#34c759',
-      color: '#fff',
-      fontSize: '11px',
-      fontWeight: '600',
-      padding: '3px 8px',
-      borderRadius: '20px',
-      zIndex: 10,
-    }}>
-      ხელმისაწვდომია
-    </div>
-  )}
-  <div className="product-image-container">
+              <div
+                key={product._id}
+                className="product-card"
+                onClick={() => handleViewDetails(product._id)}
+              >
+                {(product.status === 'available' || !product.status) && (
+                  <div style={{
+                    position: 'absolute',
+                    top: '10px',
+                    right: '10px',
+                    backgroundColor: '#34c759',
+                    color: '#fff',
+                    fontSize: '11px',
+                    fontWeight: '600',
+                    padding: '3px 8px',
+                    borderRadius: '20px',
+                    zIndex: 10,
+                  }}>
+                    ხელმისაწვდომია
+                  </div>
+                )}
+                <div className="product-image-container">
                   {product.mainImage && (
                     <img
                       src={product.mainImage}
