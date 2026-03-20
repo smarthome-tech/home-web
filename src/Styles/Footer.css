@@ -137,7 +137,8 @@
 
 .footer-creator {
   font-weight: 500;
-  color: #1d1d1f;
+  color: #1d1d1f71;
+  text-decoration: none;
 }
 
 /* Responsive Design */

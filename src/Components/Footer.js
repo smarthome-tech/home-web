@@ -90,9 +90,9 @@ function Footer() {
         <div className="footer-bottom">
           <div className="footer-divider"></div>
           <div className="footer-legal">
-            <p className="footer-copyright">
-              © 2026 SmartHome. Created by <span className="footer-creator">Apollo Creations</span>
-            </p>
+          <p className="footer-copyright">
+  © 2026 SmartHome. Created by <a href="https://saitisackoba.com" target="_blank" rel="noopener noreferrer" className="footer-creator">Apollo Creations</a>
+</p>
           </div>
         </div>
       </div>
