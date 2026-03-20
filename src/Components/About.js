@@ -117,7 +117,7 @@ function About() {
     return (
         <div className="about-container">
             <div className="about-content">
-                <h1 className="about-title">ჩვენს შესახებ</h1>
+                <h1 className="about-title">ჭკვიანი სახლის შესახებ</h1>
                 {loading ? (
                     <>
                         <div className="about-skeleton"></div>

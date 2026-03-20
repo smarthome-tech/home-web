@@ -6,7 +6,7 @@ import '../Styles/Landing.css';
 
 function Landing({ resetSignal }) {
   const navigate = useNavigate();
-  const [landingTitle, setLandingTitle] = useState("");
+  const [landingTitle, setLandingTitle] = useState("ჭკვიანი სახლი");
   const [landingDescription, setLandingDescription] = useState("");
   const [landingBanner, setLandingBanner] = useState("");
   const [loading, setLoading] = useState(true);
@@ -26,7 +26,6 @@ function Landing({ resetSignal }) {
         if (res.ok) {
           const data = await res.json();
           const settings = data.settings;
-          if (settings.landingTitle) setLandingTitle(settings.landingTitle);
           if (settings.landingDescription) setLandingDescription(settings.landingDescription);
           if (settings.landingBanner) setLandingBanner(settings.landingBanner);
         }
@@ -61,7 +60,6 @@ function Landing({ resetSignal }) {
     generateNoise(0.15);
   }, []);
 
-  // Strip HTML tags to get plain text for meta tags
   const stripHtml = (html) => {
     const tmp = document.createElement('div');
     tmp.innerHTML = html;
@@ -69,12 +67,12 @@ function Landing({ resetSignal }) {
   };
 
   useEffect(() => {
-    if (!loading && landingTitle && landingDescription) {
-      const cleanTitle = stripHtml(landingTitle).replace(/\n/g, ' ').trim();
+    if (!loading && landingDescription) {
+      const cleanTitle = "ჭკვიანი სახლი";
       const cleanDescription = stripHtml(landingDescription).replace(/\n/g, ' ').trim();
 
-      const pageTitle = cleanTitle || 'Davson - ჭკვიანი სახლი | ჭკვიანი საკეტები, სიგნალიზაცია, ავტომატიზაცია';
-      const pageDescription = cleanDescription || 'Davson - ჭკვიანი სახლის სისტემები საქართველოში. ჭკვიანი საკეტები, სიგნალიზაცია, ავტომატური კარები, განათება, გათბობა.';
+      const pageTitle = cleanTitle;
+      const pageDescription = cleanDescription || 'Davson - ჭკვიანი სახლი. ჭკვიანი საკეტები, სიგნალიზაცია, ავტომატური კარები, განათება, გათბობა.';
 
       document.title = pageTitle;
 
@@ -102,7 +100,7 @@ function Landing({ resetSignal }) {
         setMeta('meta[name="twitter:image"]', 'content', landingBanner);
       }
     }
-  }, [loading, landingTitle, landingDescription, landingBanner]);
+  }, [loading, landingDescription, landingBanner]);
 
   return (
     <>
@@ -124,7 +122,6 @@ function Landing({ resetSignal }) {
               </>
             ) : (
               <>
-                {/* ── Render HTML from rich text editor ── */}
                 <h1
                   className="landing-title"
                   dangerouslySetInnerHTML={{ __html: landingTitle }}

@@ -174,11 +174,8 @@
     </div>
 
     <script>
-        // Optional: If using hash routing (React Router with HashRouter)
-        // Redirect to home after a few seconds
-        // setTimeout(() => {
-        //     window.location.href = '/#/';
-        // }, 5000);
+        var path = window.location.pathname;
+        window.location.href = '/?path=' + encodeURIComponent(path);
     </script>
 </body>
 </html>

@@ -6,11 +6,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="theme-color" content="#667eea" />
 
+<!-- BrowserRouter GitHub Pages fix -->
+<script>
+  var path = new URLSearchParams(window.location.search).get('path');
+  if (path) window.history.replaceState(null, '', decodeURIComponent(path));
+</script>
+
 <!-- Primary SEO Meta Tags -->
-<title>Davson - დავსონი 🏠 ჭკვიანი სახლი | ჭკვიანი საკეტი, სიგნალიზაცია, სენსორები | თბილისი</title>
+<title>ჭკვიანი სახლი - Davson | ჭკვიანი საკეტი, სიგნალიზაცია, სენსორები | თბილისი</title>
 <meta 
   name="description" 
-  content="Davson (დავსონი) - ჭკვიანი სახლის სისტემები საქართველოში ✅ ჭკვიანი საკეტი ✅ სიგნალიზაცია ✅ ჭკვიანი განათება ✅ სენსორები ✅ კამერები ✅ ავტომატური კარები. Smart Home მოწყობილობები თბილისში. უფასო კონსულტაცია: +995 555 80 20 60"
+  content="ჭკვიანი სახლი Davson (დავსონი) - ჭკვიანი სახლის სისტემები საქართველოში ✅ ჭკვიანი საკეტი ✅ სიგნალიზაცია ✅ ჭკვიანი განათება ✅ სენსორები ✅ კამერები ✅ ავტომატური კარები. Smart Home მოწყობილობები თბილისში. უფასო კონსულტაცია: +995 555 80 20 60"
 />
 <meta 
   name="keywords" 
@@ -26,8 +32,8 @@
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://davson.ge" />
-<meta property="og:site_name" content="Davson - ჭკვიანი სახლი" />
-<meta property="og:title" content="Davson - დავსონი 🏠 ჭკვიანი სახლის სისტემები საქართველოში" />
+<meta property="og:site_name" content="ჭკვიანი სახლი - Davson" />
+<meta property="og:title" content="ჭკვიანი სახლი - Davson | დავსონი" />
 <meta property="og:description" content="ჭკვიანი საკეტი ✅ სიგნალიზაცია ✅ ჭკვიანი განათება ✅ სენსორები ✅ კამერები. Smart Home მოწყობილობები თბილისში. +995 555 80 20 60" />
 <meta property="og:image" content="https://davson.ge/og-image.jpg" />
 <meta property="og:image:width" content="1200" />
@@ -119,7 +125,7 @@
         "@type": "SearchAction",
         "target": {
           "@type": "EntryPoint",
-          "urlTemplate": "https://davson.ge/#/products?q={search_term_string}"
+          "urlTemplate": "https://davson.ge/products?q={search_term_string}"
         },
         "query-input": "required name=search_term_string"
       },
@@ -153,13 +159,13 @@
           "@type": "ListItem",
           "position": 2,
           "name": "პროდუქტები",
-          "item": "https://davson.ge/#/products"
+          "item": "https://davson.ge/products"
         },
         {
           "@type": "ListItem",
           "position": 3,
           "name": "კონტაქტი",
-          "item": "https://davson.ge/#/contact"
+          "item": "https://davson.ge/contact"
         }
       ]
     }

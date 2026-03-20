@@ -49,7 +49,7 @@ function Products({ resetSignal }) {
   useEffect(() => {
     const categoryName = categoryNames[selectedCategory] || 'ყველა პროდუქტი';
     const pageTitle = selectedCategory === 'all' 
-      ? 'პროდუქტები - Davson | ჭკვიანი სახლის სისტემები'
+      ? 'პროდუქტები - ჭკვიანი სახლის პროდუქტები - Davson'
       : `${categoryName} - Davson | ჭკვიანი სახლის პროდუქტები`;
     
     const pageDescription = selectedCategory === 'all'
