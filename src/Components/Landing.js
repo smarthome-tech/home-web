@@ -6,7 +6,7 @@ import '../Styles/Landing.css';
 
 function Landing({ resetSignal }) {
   const navigate = useNavigate();
-  const [landingTitle, setLandingTitle] = useState("ჭკვიანი სახლი");
+  const [landingTitle] = useState("ჭკვიანი სახლი");
   const [landingDescription, setLandingDescription] = useState("");
   const [landingBanner, setLandingBanner] = useState("");
   const [loading, setLoading] = useState(true);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../Styles/Basket.css';
 
@@ -7,7 +7,6 @@ function Basket() {
   const [totalPrice, setTotalPrice] = useState(0);
   const navigate = useNavigate();
 
-  // Scroll to top when component mounts
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -16,31 +15,28 @@ function Basket() {
     loadBasket();
   }, []);
 
+  const calculateTotal = useCallback(() => {
+    const total = basketItems.reduce((sum, item) => {
+      return sum + (item.price * (item.quantity || 1));
+    }, 0);
+    setTotalPrice(total);
+  }, [basketItems]);
+
   useEffect(() => {
     calculateTotal();
-  }, [basketItems]);
+  }, [basketItems, calculateTotal]);
 
   const loadBasket = () => {
     const basket = JSON.parse(localStorage.getItem('basket') || '[]');
     setBasketItems(basket);
   };
 
-  const calculateTotal = () => {
-    const total = basketItems.reduce((sum, item) => {
-      return sum + (item.price * (item.quantity || 1));
-    }, 0);
-    setTotalPrice(total);
-  };
-
   const updateBasketInStorage = (updatedBasket) => {
     localStorage.setItem('basket', JSON.stringify(updatedBasket));
-
-    // Update header count
     const totalCount = updatedBasket.reduce(
       (total, item) => total + (item.quantity || 1),
       0
     );
-
     window.dispatchEvent(new CustomEvent('basketUpdate', {
       detail: { count: totalCount }
     }));
@@ -57,7 +53,6 @@ function Basket() {
       removeFromBasket(productId);
       return;
     }
-
     const updatedBasket = basketItems.map(item =>
       item._id === productId
         ? { ...item, quantity: newQuantity }
@@ -69,19 +64,15 @@ function Basket() {
 
   const handleWhatsAppOrder = () => {
     if (basketItems.length === 0) return;
-
     const orderMessage = basketItems.map(item =>
       `${item.name} - რაოდენობა: ${item.quantity} - ₾${(item.price * item.quantity).toFixed(2)}`
     ).join('\n');
-
     const totalMessage = `\n\nსულ: ₾${totalPrice.toFixed(2)}`;
     const whatsappUrl = `https://wa.me/995555802060?text=${encodeURIComponent('შეკვეთა:\n\n' + orderMessage + totalMessage)}`;
-
     window.open(whatsappUrl, '_blank');
   };
 
   const handleFormOrder = () => {
-    // Navigate to order page with basket items
     navigate('/order', { state: { basketItems, totalPrice } });
   };
 
@@ -96,7 +87,6 @@ function Basket() {
           <div className="basket-header">
             <h1 className="basket-title">კალათა</h1>
           </div>
-
           <div className="basket-empty">
             <div className="empty-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -138,12 +128,10 @@ function Basket() {
                     className="item-image"
                   />
                 </div>
-
                 <div className="item-details">
                   <h3 className="item-name">{item.name}</h3>
                   <p className="item-price">₾{item.price?.toFixed(2)}</p>
                 </div>
-
                 <div className="item-quantity">
                   <button
                     className="quantity-btn"
@@ -166,13 +154,11 @@ function Basket() {
                     </svg>
                   </button>
                 </div>
-
                 <div className="item-total">
                   <p className="item-total-price">
                     ₾{(item.price * item.quantity).toFixed(2)}
                   </p>
                 </div>
-
                 <button
                   className="remove-btn"
                   onClick={() => removeFromBasket(item._id)}
@@ -190,22 +176,17 @@ function Basket() {
           <div className="basket-summary">
             <div className="summary-card">
               <h2 className="summary-title">შეკვეთის შეჯამება</h2>
-
               <div className="summary-row">
                 <span className="summary-label">პროდუქტები ({basketItems.length})</span>
                 <span className="summary-value">₾{totalPrice.toFixed(2)}</span>
               </div>
-
               <div className="summary-divider"></div>
-
               <div className="summary-row summary-total">
                 <span className="summary-label">სულ</span>
                 <span className="summary-value">₾{totalPrice.toFixed(2)}</span>
               </div>
-
               <div className="contact-section">
                 <p className="contact-title">შეკვეთის გაფორმება</p>
-
                 <button
                   className="contact-btn form-order-btn"
                   onClick={handleFormOrder}
@@ -215,7 +196,6 @@ function Basket() {
                   </svg>
                   შეკვეთა
                 </button>
-
                 <button
                   className="contact-btn whatsapp-btn"
                   onClick={handleWhatsAppOrder}
@@ -225,7 +205,6 @@ function Basket() {
                   </svg>
                   WhatsApp-ით შეკვეთა
                 </button>
-
                 <button
                   className="contact-btn phone-btn"
                   onClick={handlePhoneCall}
@@ -235,7 +214,6 @@ function Basket() {
                   </svg>
                   ზარი: +995 555 80 20 60
                 </button>
-
                 <p className="contact-info">
                   დარეკეთ ან გამოგვიგზავნეთ შეკვეთა WhatsApp-ზე
                 </p>
