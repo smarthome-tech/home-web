@@ -7,7 +7,6 @@ function LandingProducts({ resetSignal }) {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedCategory, setSelectedCategory] = useState('all');
   const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
   const productsTopRef = useRef(null);
@@ -68,7 +67,7 @@ function LandingProducts({ resetSignal }) {
   }, []);
 
   const handleFilterChange = (category) => {
-    setSelectedCategory(category);
+
     setCurrentPage(1);
     if (category === 'all') {
       setFilteredProducts(sortProductsByNumeration(products));
